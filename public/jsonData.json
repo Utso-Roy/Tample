@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "দেবাশীষ চন্দ্র রায়",
+    "position": "সভাপতি",
+    "phone": "01717136603",
+    "email": "shyam.president@mandir.org",
+    "responsibility": "মন্দিরের সার্বিক দায়িত্ব পালন ও নীতিনির্ধারণী সিদ্ধান্ত গ্রহণ।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 2,
+    "name": "চিত্ত রঞ্জন রায়",
+    "position": "সাধারণ সম্পাদক",
+    "phone": "01713-346736",
+    "email": "nimai.secretary@mandir.org",
+    "responsibility": "নথিপত্র ও গুরুত্বপূর্ণ দাপ্তরিক তথ্যের সঠিক রক্ষণাবেক্ষণ।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 3,
+    "name": "ধনেশ্বর চন্দ্র রায়",
+    "position": "কোষাধ্যক্ষ",
+    "phone": "01733-345678",
+    "email": "gouranga.treasurer@mandir.org",
+    "responsibility": "মন্দিরের সকল আর্থিক কার্যক্রমের হিসাব সংরক্ষণ ও তত্ত্বাবধান।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 4,
+    "name": "মতিলাল চন্দ্র রায়",
+    "position": "উপদেষ্টা",
+    "phone": "01777-111222",
+    "email": "motilal.advisor@mandir.org",
+    "responsibility": "ব্যবস্থাপনাগত বিষয়ে গঠনমূলক পরামর্শ প্রদান।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 5,
+    "name": "দিজেন চন্দ্র রায়",
+    "position": "উপদেষ্টা",
+    "phone": "01788-222333",
+    "email": "dejen.advisor@mandir.org",
+    "responsibility": "মন্দির পরিচালনায় প্রয়োজনীয় দিকনির্দেশনা ও পরামর্শ প্রদান।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 6,
+    "name": "বীনা রানী রায়",
+    "position": "পূজারী",
+    "phone": "01799-333444",
+    "email": "bana.pujari@mandir.org",
+    "responsibility": "নিয়মিত পূজা-অর্চনা ও ধর্মীয় কার্যক্রম পরিচালনা।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  },
+  {
+    "id": 7,
+    "name": "দুর্গা রানী রায়",
+    "position": "পূজারী",
+    "phone": "01755-444555",
+    "email": "durga.pujari@mandir.org",
+    "responsibility": "নিয়মিত পূজা-অর্চনা ও ধর্মীয় কার্যক্রম পরিচালনা।",
+    "image": "https://i.ibb.co/pBzbZ0qX/Utso-Roy.jpg"
+  }
+]
