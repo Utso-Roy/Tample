@@ -5,7 +5,7 @@ const Home = () => {
   const data = useLoaderData();
 
   return (
-    <div className="grid grid-cols-3 bg-[#f3f4f6] p-3 gap-3">
+    <div className="grid grid-cols-3 min-h-screen gap-3 p-3 bg-base-200 text-base-content  h-[calc(100vh-100px)] overflow-y-auto">
       {data.map((singleData, index) => (
         <div key={index} className="card bg-base-100 shadow-sm">
           <figure className="px-10 pt-10">
@@ -19,8 +19,11 @@ const Home = () => {
             <h2 className="card-title">{singleData.name}</h2>
             <p className="text-orange-700 font-semibold">পদবী: {singleData.position}</p>
             <div className="card-actions mt-4">
-
-              <Link to={ `/detailsPage/${singleData.id}`}><button  className="btn btn-sm hover:bg-[#e44100] hover:text-white border-1 border-[#e44100]">Details</button></Link>
+              <Link to={`/detailsPage/${singleData.id}`}>
+                <button className="btn btn-sm hover:bg-[#e44100] hover:text-white border border-[#e44100]">
+                  Details
+                </button>
+              </Link>
             </div>
           </div>
         </div>

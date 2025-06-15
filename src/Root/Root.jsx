@@ -12,7 +12,7 @@ const Root = () => {
       <Navbar />
       </div>
       <div className="flex ">
-      <div>  <Sidebar />  </div>
+      <div >  <Sidebar />  </div>
         <div className=" w-full  flex flex-col">
           <main className="flex-grow p-4">
             <Outlet />

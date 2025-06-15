@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from "react";
 import {
   FaHome,
   FaPlus,
@@ -6,103 +6,97 @@ import {
   FaChartBar,
   FaCalendarAlt,
   FaFileUpload,
-  FaChevronDown,
-  FaChevronUp,
-} from 'react-icons/fa';
+} from "react-icons/fa";
+import { Link } from "react-router";
 
 const Sidebar = () => {
-  const [openSection, setOpenSection] = useState(null);
-
-  const toggleSection = (section) => {
-    if (openSection === section) {
-      setOpenSection(null); 
-    } else {
-      setOpenSection(section); 
-    }
-  };
-
   return (
-    <div className="w-64 sticky top-30 z-500   bg-gradient-to-b from-orange-700 to-orange-600 text-white p-4 shadow-xl h-auto">
-      <div className="text-2xl font-bold mb-6 text-center">
-        🛕 Mandir Accounts
-      </div>
+    <aside className="w-64 sticky top-8 bg-gradient-to-b from-orange-700 to-orange-600 text-white p-4 shadow-xl min-h-screen">
+      <h2 className="text-2xl font-bold mb-6 text-center select-none">🛕 Mandir Accounts</h2>
 
-      <nav className="space-y-2">
-        <DropdownSection
-          title="Dashboard"
-          icon={<FaHome />}
-          isOpen={openSection === 'dashboard'}
-          onToggle={() => toggleSection('dashboard')}
-        >
-          <MenuItem icon={<FaList />} label="Overview" />
-          <MenuItem icon={<FaChartBar />} label="Stats" />
-        </DropdownSection>
-
-        <DropdownSection
-          title="Income"
-          isOpen={openSection === 'income'}
-          onToggle={() => toggleSection('income')}
-        >
-          <MenuItem icon={<FaPlus />} label="Add Income" />
-          <MenuItem icon={<FaList />} label="Income List" />
-          <MenuItem icon={<FaChartBar />} label="Income Report" />
-        </DropdownSection>
-
-        <DropdownSection
-          title="Expenses"
-          isOpen={openSection === 'expenses'}
-          onToggle={() => toggleSection('expenses')}
-        >
-          <MenuItem icon={<FaPlus />} label="Add Expense" />
-          <MenuItem icon={<FaList />} label="Expense List" />
-          <MenuItem icon={<FaChartBar />} label="Expense Report" />
-        </DropdownSection>
-
-        <DropdownSection
-          title="Events"
-          isOpen={openSection === 'events'}
-          onToggle={() => toggleSection('events')}
-        >
-          <MenuItem icon={<FaCalendarAlt />} label="Puja Schedule" />
-          <MenuItem icon={<FaPlus />} label="Add Event" />
-          <MenuItem icon={<FaList />} label="Event Report" />
-        </DropdownSection>
-
-        <DropdownSection
-          title="Files"
-          isOpen={openSection === 'files'}
-          onToggle={() => toggleSection('files')}
-        >
-          <MenuItem icon={<FaFileUpload />} label="Upload Receipt" />
-        </DropdownSection>
-      </nav>
-    </div>
-  );
-};
-
-const MenuItem = ({ icon, label }) => (
-  <div className="flex items-center gap-3 px-5 py-2 hover:bg-orange-700 rounded cursor-pointer">
-    {icon}
-    <span>{label}</span>
-  </div>
-);
-
-const DropdownSection = ({ title, icon, children, isOpen, onToggle }) => {
-  return (
-    <div>
-      <div
-        className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-orange-800 rounded"
-        onClick={onToggle}
-      >
-        <div className="flex items-center gap-3">
-          {icon ?? <FaChevronDown />}
-          <span className="font-semibold">{title}</span>
+      <nav className="space-y-4" aria-label="Main Navigation">
+        {/* Dashboard Section */}
+        <div>
+          <h3 className="flex items-center gap-2 font-semibold mb-2">
+            <FaHome /> Dashboard
+          </h3>
+          <ul className="space-y-1 pl-6">
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-800 rounded px-2 py-1 select-none">
+              <FaList /> Overview
+            </button>
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-800 rounded px-2 py-1 select-none">
+              <FaChartBar /> Stats
+            </button>
+          </ul>
         </div>
-        {isOpen ? <FaChevronUp /> : <FaChevronDown />}
-      </div>
 
-      {isOpen && <div className="ml-4 mt-1 space-y-1">{children}</div>}
-    </div>
+        {/* Income Section */}
+        <div>
+          <h3 className="flex items-center gap-2 font-semibold mb-2">
+            <FaPlus /> Income
+          </h3>
+          <ul className="space-y-1 pl-6">
+            <Link to="/addIncome" className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaPlus /> Add Income
+            </Link>
+            <Link to="/incomeList" className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaList /> Income List
+            </Link>
+            <Link to="/incomeReport" className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaChartBar /> Income Report
+            </Link>
+          </ul>
+        </div>
+
+        {/* Expenses Section */}
+        <div>
+          <h3 className="flex items-center gap-2 font-semibold mb-2">
+            <FaPlus /> Expenses
+          </h3>
+          <ul className="space-y-1 pl-6">
+            <Link to="/addExpense" className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaPlus /> Add Expense
+            </Link>
+            <Link to="/addExpenseList" className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaList /> Expense List
+            </Link>
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaChartBar /> Expense Report
+            </button>
+          </ul>
+        </div>
+
+        {/* Events Section */}
+        <div>
+          <h3 className="flex items-center gap-2 font-semibold mb-2">
+            <FaCalendarAlt /> Events
+          </h3>
+          <ul className="space-y-1 pl-6">
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaCalendarAlt /> Puja Schedule
+            </button>
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaPlus /> Add Event
+            </button>
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaList /> Event Report
+            </button>
+          </ul>
+        </div>
+
+        {/* Files Section */}
+        <div>
+          <h3 className="flex items-center gap-2 font-semibold mb-2">
+            <FaFileUpload /> Files
+          </h3>
+          <ul className="space-y-1 pl-6">
+            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+              <FaFileUpload /> Upload Receipt
+            </button>
+          </ul>
+        </div>
+      </nav>
+    </aside>
   );
 };
 

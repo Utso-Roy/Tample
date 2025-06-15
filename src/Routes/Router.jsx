@@ -8,6 +8,11 @@ import Contacts from "../Contacts/Contacts";
 import DetailsPage from "../DetailsPage/DetailsPage";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
+import AddIncome from "../AddIncome/AddIncome";
+import IncomeList from "../IncomeList/IncomeList";
+import IncomeReport from "../IncomeReport/IncomeReport";
+import AddExpense from "../AddExpense/AddExpense";
+import AddExpenseList from "../AddExpenseList/AddExpenseList";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +46,28 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element : <Register></Register>
-      }
+      },
+      {
+        path: "/addIncome",
+        element : <AddIncome></AddIncome>
+      },
+      {
+        path: "/incomeList",
+        element :<IncomeList></IncomeList>
+      },
+      {
+        path: "/incomeReport",
+        element : <IncomeReport></IncomeReport>
+      },
+      {
+        path: "/addExpense",
+        element : <AddExpense></AddExpense>
+      },
+      {
+        path: "/addExpenseList",
+        element : <AddExpenseList></AddExpenseList>
+      },
+     
     ]
   }
 ]);
