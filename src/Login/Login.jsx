@@ -1,11 +1,13 @@
-import React, { use } from 'react';
-import { Link } from 'react-router'; 
+import React, {useContext} from 'react';
+import { Link, Navigate, useNavigate } from 'react-router'; 
 import animation from '../assets/Animation - 1748973901908.json';
 import Lottie from 'lottie-react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
-  const { setUser,loginUser} = use(AuthContext)
+  const { setUser, loginUser, googleLogin } = useContext(AuthContext)
+  const Navigate = useNavigate()
 
   const handleLoginBtn = (e) => {
     e.preventDefault()
@@ -13,11 +15,24 @@ const Login = () => {
     const email = from.email.value
     const password = from.password.value
     
-    console.log({ email, password })
+   
     
     loginUser(email, password)
-      .then(result => 
+      .then(result => {
+
+
         setUser(result.user)
+        Navigate('/')
+        Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your login has been successfully",
+  showConfirmButton: false,
+  timer: 1500
+});
+      }
+        
+        
         
     )
       .catch(error => {
@@ -25,6 +40,28 @@ const Login = () => {
     })
 
   }
+const googleLoginBtn = async () => {
+  try {
+    const result = await googleLogin();
+    setUser(result.user);
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Logged in successfully with Google!",
+      showConfirmButton: false,
+      timer: 2000,
+      toast: true
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: error.message,
+    });
+  }
+};
+
 
 
 
@@ -42,6 +79,7 @@ const Login = () => {
               <input 
                 type="email" 
                 name="email" 
+                required
                 placeholder="Enter your Email" 
                 className="w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#da3d00] dark:bg-gray-700 dark:text-white dark:border-gray-600" 
               />
@@ -52,6 +90,7 @@ const Login = () => {
               <input 
                 type="password" 
                 name="password" 
+                required
                 id="password" 
                 placeholder="Enter your password" 
                 className="w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#da3d00] dark:bg-gray-700 dark:text-white dark:border-gray-600" 
@@ -74,7 +113,7 @@ const Login = () => {
           </div>
           
           <div className="flex justify-center">
-            <button 
+            <button onClick={googleLoginBtn}
               aria-label="Log in with Google" 
               className="p-3 rounded-full border border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700"
             >

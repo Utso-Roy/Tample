@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import { Typewriter } from 'react-simple-typewriter';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -16,16 +17,28 @@ const Navbar = () => {
   const toggleTheme = () => {
     setTheme(prev => prev === "light" ? "dark" : "light");
   };
+const handleLogOut = () => {
+  Swal.fire({
+    title: "Are you sure you want to log out?",
+    text: "You can log in again anytime.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, log me out"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      logOut()
+        .then(() => {
+          Swal.fire("Logged Out!", "You have been successfully logged out.", "success");
+        })
+        .catch((error) => {
+          Swal.fire("Error!", error.message, "error");
+        });
+    }
+  });
+};
 
-  const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        alert("Successfully Logged Out");
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-  };
 
   const link = (
     <>
@@ -72,7 +85,16 @@ const Navbar = () => {
               {link}
             </ul>
           </div>
-          <a className=" text-2xl">
+          
+          <div className='flex gap-3 items-center'>
+            
+ <img
+              src="https://i.ibb.co/50j721F/temple.png"
+              alt="Temple Logo"
+              className="w-12 h-12 mx-auto md:mx-0 p-1 bg-white rounded-full mb-2 shadow-md"
+            />
+
+              <a className=" text-2xl">
             <Typewriter
               words={['Hare Krishna', 'Hare Krishna', 'Krishna Krishna', 'Hare Hare', 'Hare Ram', 'Hare Ram', 'Ram Ram', 'Hare Hare']}
               loop={Infinity}
@@ -83,6 +105,7 @@ const Navbar = () => {
               delaySpeed={1000}
             />
           </a>
+        </div>
         </div>
 
         <div className="navbar-center hidden lg:flex">

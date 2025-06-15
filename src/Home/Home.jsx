@@ -5,7 +5,7 @@ const Home = () => {
   const data = useLoaderData();
 
   return (
-    <div className="grid grid-cols-3 min-h-screen gap-3 p-3 bg-base-200 text-base-content  h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="grid grid-cols-3 min-h-screen gap-3 p-3 bg-base-200 text-base-content  h-[calc(200vh-200px)] overflow-y-auto">
       {data.map((singleData, index) => (
         <div key={index} className="card bg-base-100 shadow-sm">
           <figure className="px-10 pt-10">

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import register from '../assets/register.json'
 import Lottie from 'lottie-react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Register = () => {
 
@@ -20,8 +21,14 @@ const Register = () => {
     creatUser(email, password)
       .then(data => {
       
-        console.log(data.user)
         setUser(data.user)
+Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your login has been successfully",
+  showConfirmButton: false,
+  timer: 1500
+});
     })
   
       .catch(error => {
@@ -46,7 +53,8 @@ const Register = () => {
           <form  onSubmit={handleRegisterBtn} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-              <input 
+                <input 
+                  required
                 type="text" 
                 name="text" 
                 placeholder="Enter your Name" 
@@ -55,7 +63,8 @@ const Register = () => {
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo Url</label>
-              <input 
+                <input 
+                  required
                 type="text" 
                 name="photo" 
                 placeholder="Enter your Photo Url" 
@@ -64,7 +73,8 @@ const Register = () => {
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-              <input 
+                <input 
+                  required
                 type="email" 
                 name="email" 
                 placeholder="Enter your Email" 
@@ -74,7 +84,8 @@ const Register = () => {
             
             <div className="space-y-2">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-              <input 
+                <input 
+                  required
                 type="password" 
                 name="password" 
                 id="password" 
