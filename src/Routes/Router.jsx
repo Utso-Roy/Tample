@@ -13,24 +13,40 @@ import IncomeList from "../IncomeList/IncomeList";
 import IncomeReport from "../IncomeReport/IncomeReport";
 import AddExpense from "../AddExpense/AddExpense";
 import AddExpenseList from "../AddExpenseList/AddExpenseList";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Error from "../Error/Error";
+import UttarPara from "../UttarPara/UttarPara";
+import DokkhinPara from "../DokkhinPara/DokkhinPara";
+import MajaPara from "../MajaPara/MajaPara";
+import RiceCollection from "../RiceCollection/RiceCollection";
+import OutCollection from "../OutCollection/OutCollection";
+import ExpenseReport from "../ExpenseReport/ExpenseReport";
+import Stats from "../Stats/Stats";
+import Overview from "../Overview/Overview";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement : <Error></Error>,
+           
+
+    
     children: [
       {
         index: true,
+  
         loader: () => fetch('/jsonData.json'),
-        element: <Home />
+        element: <PrivateRoute><Home /></PrivateRoute>,
+       
       },
       {
         path: "/accounts",
-        element: <Accounts />
+        element: <PrivateRoute> <Accounts /></PrivateRoute>
       },
       {
         path: "/contacts",
-        element: <Contacts />
+        element: <PrivateRoute><Contacts /></PrivateRoute>
       },
       {
         path: `detailsPage/:id`,
@@ -48,24 +64,56 @@ const router = createBrowserRouter([
         element : <Register></Register>
       },
       {
+        path: "/stats",
+        element : <PrivateRoute> <Stats></Stats>   </PrivateRoute> 
+      },
+      {
+        path: "/overview",
+        element : <PrivateRoute> <Overview></Overview>   </PrivateRoute> 
+      },
+      {
         path: "/addIncome",
-        element : <AddIncome></AddIncome>
+        element : <PrivateRoute> <AddIncome></AddIncome>   </PrivateRoute> 
       },
       {
         path: "/incomeList",
-        element :<IncomeList></IncomeList>
+        element :<PrivateRoute> <IncomeList></IncomeList> </PrivateRoute>
       },
       {
         path: "/incomeReport",
-        element : <IncomeReport></IncomeReport>
+        element :<PrivateRoute>  <IncomeReport></IncomeReport>   </PrivateRoute>
       },
       {
         path: "/addExpense",
-        element : <AddExpense></AddExpense>
+        element : <PrivateRoute> <AddExpense></AddExpense>   </PrivateRoute>
       },
       {
         path: "/addExpenseList",
-        element : <AddExpenseList></AddExpenseList>
+        element : <PrivateRoute><AddExpenseList></AddExpenseList> </PrivateRoute>
+      },
+      {
+        path: "/expenseReport",
+        element : <PrivateRoute><ExpenseReport></ExpenseReport> </PrivateRoute>
+      },
+      {
+        path: "/uttarPara",
+        element : <UttarPara></UttarPara>
+      },
+      {
+        path: "/dokkhinPara",
+        element : <DokkhinPara></DokkhinPara>
+      },
+      {
+        path: "/MajaPara",
+        element : <MajaPara></MajaPara>
+      },
+      {
+        path: "/riceCollection",
+        element : <RiceCollection></RiceCollection>
+      },
+      {
+        path: "/outCollection",
+        element : <OutCollection></OutCollection>
       },
      
     ]

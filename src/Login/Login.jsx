@@ -19,8 +19,6 @@ const Login = () => {
     
     loginUser(email, password)
       .then(result => {
-
-
         setUser(result.user)
         Navigate('/')
         Swal.fire({
@@ -44,6 +42,7 @@ const googleLoginBtn = async () => {
   try {
     const result = await googleLogin();
     setUser(result.user);
+    Navigate('/')
 
     Swal.fire({
       position: "top-end",
@@ -66,7 +65,7 @@ const googleLoginBtn = async () => {
 
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4'>
+    <div className='min-h-screen flex items-center justify-center  dark:bg-gray-900 bg-gray-100 p-4'>
       <div className='flex flex-col md:flex-row gap-10 items-center max-w-6xl w-full'>
 
         <div className="w-full max-w-md p-8 space-y-6 rounded-xl shadow-xl bg-white dark:bg-gray-800">
@@ -100,7 +99,7 @@ const googleLoginBtn = async () => {
             
             <button 
               type="submit"
-              className="w-full px-4 py-3 text-white bg-[#da3d00] rounded-md hover:bg-[#c03600] transition duration-200"
+              className="w-full cursor-pointer px-4 py-3 text-white bg-[#da3d00] rounded-md hover:bg-[#c03600] transition duration-200"
             >
               Sign In
             </button>
@@ -115,7 +114,7 @@ const googleLoginBtn = async () => {
           <div className="flex justify-center">
             <button onClick={googleLoginBtn}
               aria-label="Log in with Google" 
-              className="p-3 rounded-full border border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700"
+              className="p-3 rounded-full border cursor-pointer border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700"
             >
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 fill-current text-gray-700 dark:text-gray-300">
@@ -134,7 +133,7 @@ const googleLoginBtn = async () => {
         </div>
 
         
-        <div className='w-full max-w-lg'>
+        <div className='w-full dark:bg-white max-w-lg'>
           <Lottie animationData={animation} loop={true} />
         </div>
 

@@ -2,9 +2,9 @@ import React from "react";
 
 const Accounts = () => {
   return (
-    <div className="p-2 space-y-4">
+    <div className="p-5 h-[calc(200vh-200px)] overflow-y-auto space-y-4">
       <h2 className="text-center font-semibold text-3xl">
-        মন্দিরের ইতিহাস: রামপুর আখিরা পাড়া হরিমন্দির
+        মন্দিরের ইতিহাস : রামপুর আখিরা পাড়া হরিমন্দির
       </h2>
       <p>
         মন্দিরের ইতিহাসের এই নিবন্ধে আমরা রামপুর আখিরা পাড়া হরিমন্দিরের

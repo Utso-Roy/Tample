@@ -1,13 +1,53 @@
 import React from 'react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 
-const IncomeReport = () => {
-    return (
-        <div>
+const data = [
+  {
+    name: 'উত্তরা পাড়া', amount: 20000,
+  },
+  {
+    name: 'মাঝ পাড়া', amount: 15000,
+  },
+  {
+    name: 'দক্ষিণ পাড়া', amount: 10000,
+  },
+  {
+    name: 'বাইরের কালেকশন', amount: 300000,
+  },
+  {
+    name: 'চাল কালেকশন', amount: 0, rice: 7000,
+  },
+];
 
-            Income Report 
-            
-        </div>
-    );
+const IncomeReportChart = () => {
+  return (
+    <div className="w-full h-[450px] my-24 p-4 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold flex gap-1 justify-center items-center text-green-700 mb-4"> <img className='h-[30px] w-[30px]' src="https://i.ibb.co/G4N5Kw39/icons8-graph-report-96.png" alt="img" /> ইনকাম রিপোর্ট চার্ট</h2>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="amount" fill="#16a34a" name="টাকা (৳)" />
+          <Bar dataKey="rice" fill="#facc15" name="চাল (কেজি)" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
 };
 
-export default IncomeReport;
+export default IncomeReportChart;

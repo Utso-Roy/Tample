@@ -1,42 +1,53 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import register from '../assets/register.json'
 import Lottie from 'lottie-react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
 
 const Register = () => {
 
-  const {creatUser,setUser} =use(AuthContext)
-
+  const { creatUser, setUser } = use(AuthContext)
+  const Navigate = useNavigate()
   const handleRegisterBtn = (e) => {
     e.preventDefault();
-    const from = e.target
-    const text = from.text.value
-    const email = from.email.value
-    const photo = from.photo.value
-    const password = from.password.value
-    console.log({ text, email, photo, password })
-
-    creatUser(email, password)
-      .then(data => {
-      
-        setUser(data.user)
-Swal.fire({
-  position: "top-end",
-  icon: "success",
-  title: "Your login has been successfully",
-  showConfirmButton: false,
-  timer: 1500
-});
-    })
+    const form = e.target;
+    const text = form.text.value;
+    const email = form.email.value;
+    const photo = form.photo.value;
+    const password = form.password.value;
   
-      .catch(error => {
-  alert(error.message)
-})
-
-    
-}
+    console.log({ text, email, photo, password });
+  
+    creatUser(email, password)
+      .then((data) => {
+        const user = data.user;
+  
+        updateProfile(user, {
+          displayName: text,
+          photoURL: photo,
+        })
+          .then(() => {
+            setUser(user);     
+            Navigate("/");     
+  
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your registration was successful!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          })
+          .catch((error) => {
+            console.error("Profile update failed:", error.message);
+          });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
 
 

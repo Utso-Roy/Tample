@@ -2,7 +2,7 @@ import React from 'react';
 
 const Contacts = () => {
     return (
-        <section className="p-6 bg-[#f3f4f6] dark:bg-gray-900 dark:text-gray-200 min-h-screen flex items-center justify-center">
+        <section className="p-6 bg-[#f3f4f6] dark:bg-gray-900 dark:text-gray-200 h-full flex items-center justify-center">
           <form noValidate className="container w-full max-w-xl p-8 mx-auto space-y-6 rounded-md shadow-2xl bg-white dark:bg-gray-800 dark:text-gray-200">
             <h2 className="w-full text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">Contact us</h2>
             

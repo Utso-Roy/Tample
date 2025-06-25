@@ -13,7 +13,7 @@ const DetailsPage = () => {
 
 
     return (
-        <div className="hero min-h-screen bg-[#f3f4f6]">
+        <div className="hero h-full bg-[#f3f4f6]">
       <div className="hero-content flex-col lg:flex-row-reverse gap-10 p-6">
         <img
           src={image}

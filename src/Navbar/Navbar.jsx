@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { Typewriter } from 'react-simple-typewriter';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const { user, logOut } = useContext(AuthContext);
+  const Navigate = useNavigate()
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -31,6 +32,7 @@ const handleLogOut = () => {
       logOut()
         .then(() => {
           Swal.fire("Logged Out!", "You have been successfully logged out.", "success");
+          Navigate('/login')
         })
         .catch((error) => {
           Swal.fire("Error!", error.message, "error");
@@ -70,8 +72,8 @@ const handleLogOut = () => {
   );
 
   return (
-    <div className='my-2'>
-      <div className="navbar rounded-[5px] bg-gradient-to-b from-orange-700 to-orange-600 text-white shadow-sm">
+    <div className=''>
+      <div className="navbar rounded-[5px] bg-gradient-to-b from-orange-700 to-orange-600   text-white shadow-sm">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -127,20 +129,36 @@ const handleLogOut = () => {
 
           {
             user ? (
-              <details className="dropdown">
-                <summary className="btn rounded-full m-1 w-12 h-12 flex items-center justify-center bg-gray-200 p-0 overflow-hidden">
+              <details className="dropdown dropdown-end">
+              <summary
+                className="avatar cursor-pointer tooltip"
+                data-tip={user?.displayName || "User"}
+              >
+                <div className="w-12 h-12 rounded-full overflow-hidden">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxlDun0EWp8OiGTXoelcBkuM7BiifKAflkw&s"
-                    alt="profile"
-                    className="w-full h-full object-cover rounded-full"
+                    src={user?.photoURL || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqxlDun0EWp8OiGTXoelcBkuM7BiifKAflkw&s"}
+                    alt="Profile"
+                    className="object-cover w-full h-full"
                   />
-                </summary>
+                </div>
+              </summary>
+            
+              <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-box w-56">
+                <li className="text-sm dark:text-white font-semibold text-gray-800 px-2 py-1 cursor-default">
+                  {user?.displayName || "Anonymous User"}
+                </li>
+                <li className="text-sm dark:text-white text-gray-600 px-2 py-1 cursor-default">
+                  {user?.email}
+                </li>
+                <li>
+                  <button onClick={handleLogOut} className="btn bg-amber-500 text-white   mt-1 w-full">
+                    Log Out
+                  </button>
+                </li>
+              </ul>
+            </details>
+            
 
-                <ul className="menu dropdown-content bg-amber-200 gap-1 rounded-box z-10 w-52 p-2 shadow-sm">
-                  <li className='btn'>{user?.email}</li>
-                  <button onClick={handleLogOut} className='btn'>LogOut</button>
-                </ul>
-              </details>
             ) : (
               <Link to="/login"><button className='btn'>Login</button></Link>
             )
