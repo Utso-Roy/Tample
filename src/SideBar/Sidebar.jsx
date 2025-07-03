@@ -7,15 +7,16 @@ import {
   FaCalendarAlt,
   FaFileUpload,
 } from "react-icons/fa";
-import { NavLink, Link } from "react-router";
+import { NavLink } from "react-router";
 
 const Sidebar = () => {
+  
   const navItemClass = ({ isActive }) =>
     `flex items-center gap-2 cursor-pointer rounded px-2 py-1 select-none 
-    ${isActive ? "bg-orange-700 font-bold" : "hover:bg-orange-600"}`;
+    ${isActive ? "bg-orange-700 font-bold" : "hover:bg-orange-600 dark:hover:bg-orange-700"}`;
 
   return (
-    <aside className="w-64 sticky top-8 bg-gradient-to-b from-orange-700 to-orange-600 text-white p-4 shadow-xl min-h-screen">
+    <aside className="w-64 sticky dark:border-b-2 dark:border-t-2 top-8 bg-orange-600 dark:bg-[#1E2939] text-white p-4 shadow-xl min-h-screen">
       <h2 className="text-2xl font-bold mb-6 text-center select-none">
         Mandir Accounts
       </h2>
@@ -78,15 +79,15 @@ const Sidebar = () => {
             <FaCalendarAlt /> Events
           </h3>
           <ul className="space-y-1 pl-6">
-            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+            <NavLink to="/pujaSchedule" className={navItemClass}>
               <FaCalendarAlt /> Puja Schedule
-            </button>
-            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+            </NavLink>
+            <NavLink to="/addEvent" className={navItemClass}>
               <FaPlus /> Add Event
-            </button>
-            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+            </NavLink>
+            <NavLink to="/eventReport" className={navItemClass}>
               <FaList /> Event Report
-            </button>
+            </NavLink>
           </ul>
         </div>
 
@@ -96,9 +97,9 @@ const Sidebar = () => {
             <FaFileUpload /> Files
           </h3>
           <ul className="space-y-1 pl-6">
-            <button className="flex items-center gap-2 cursor-pointer hover:bg-orange-700 rounded px-2 py-1 select-none">
+            <NavLink to="/uploadReceipt" className={navItemClass}>
               <FaFileUpload /> Upload Receipt
-            </button>
+            </NavLink>
           </ul>
         </div>
       </nav>

@@ -23,6 +23,7 @@ import OutCollection from "../OutCollection/OutCollection";
 import ExpenseReport from "../ExpenseReport/ExpenseReport";
 import Stats from "../Stats/Stats";
 import Overview from "../Overview/Overview";
+import PujaSchedule from "../PujaShcedule/PujaShcdule";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "/expenseReport",
         element : <PrivateRoute><ExpenseReport></ExpenseReport> </PrivateRoute>
+      },
+      {
+        path: "/pujaSchedule",
+        element : <PrivateRoute><PujaSchedule></PujaSchedule> </PrivateRoute>
       },
       {
         path: "/uttarPara",

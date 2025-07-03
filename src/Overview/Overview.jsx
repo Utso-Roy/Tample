@@ -1,58 +1,64 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Overview = () => {
-  return (
-    <div className="max-w-6xl mx-auto bg-[#f3f4f6] h-full p-5">
-      <h2 className="text-3xl font-bold text-center mb-8 text-green-700">📊 সারাংশ (Overview)</h2>
+  const { uttarParaTk } = useContext(AuthContext);
 
-      {/* Summary cards */}
+  console.log(uttarParaTk)
+
+  return (
+    <div className="max-w-6xl mx-auto h-full bg-[#f3f4f6] dark:bg-[#1E2939] dark:border dark:border-white px-6 py-12 transition-colors duration-300">
+      {/* Title */}
+      <h2 className="text-4xl font-bold text-center text-green-700 dark:text-green-400 mb-10">
+        📊 সারাংশ (Overview)
+      </h2>
+
+      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="bg-green-100 p-6 rounded-lg shadow text-center">
-          <h4 className="text-xl font-bold text-green-800">মোট আয়</h4>
-          <p className="text-2xl font-semibold text-green-700">৳১,২০,০০০</p>
+        <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
+          <h4 className="text-xl font-bold text-center mb-2">মোট আয়</h4>
+          <p className="text-3xl font-bold text-center">৳ ১,২০,০০০</p>
         </div>
-        <div className="bg-red-100 p-6 rounded-lg shadow text-center">
-          <h4 className="text-xl font-bold text-red-800">মোট ব্যয়</h4>
-          <p className="text-2xl font-semibold text-red-700">৳৭৫,৫০০</p>
+
+        <div className="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
+          <h4 className="text-xl font-bold text-center mb-2">মোট ব্যয়</h4>
+          <p className="text-3xl font-bold text-center">৳ ৭৫,৫০০</p>
         </div>
-        <div className="bg-yellow-100 p-6 rounded-lg shadow text-center">
-          <h4 className="text-xl font-bold text-yellow-800">বর্তমান ব্যালেন্স</h4>
-          <p className="text-2xl font-semibold text-yellow-700">৳৪৪,৫০০</p>
+
+        <div className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
+          <h4 className="text-xl font-bold text-center mb-2">বর্তমান ব্যালেন্স</h4>
+          <p className="text-3xl font-bold text-center">৳ ৪৪,৫০০</p>
         </div>
       </div>
 
-      {/* Area-wise income and expense */}
-      <div className="bg-white shadow p-6 rounded-lg overflow-x-auto">
-        <h3 className="text-xl font-bold text-gray-700 mb-4"> পাড়া ভিত্তিক হিসাব</h3>
-        <table className="table-auto w-full text-center border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">পাড়া</th>
-              <th className="border p-2">ইনকাম</th>
-              <th className="border p-2">ব্যয়</th>
+      {/* Area-wise Table */}
+      <div className="bg-white dark:bg-[#1E2939] border border-gray-200 dark:border-white rounded-xl overflow-x-auto shadow-md">
+        <h3 className="text-2xl font-semibold dark:text-white text-gray-800 px-6 py-4 border-b border-gray-200 dark:border-white">
+          🏘️ পাড়া ভিত্তিক হিসাব
+        </h3>
+
+        <table className="min-w-full text-sm text-center dark:text-white">
+          <thead className="bg-gray-100 dark:bg-[#334155] text-gray-700 dark:text-white text-md">
+            <tr>
+              <th className="px-6 py-3 border">পাড়া</th>
+              <th className="px-6 py-3 border">প্রণামী</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td className="border p-2">উত্তর পাড়া</td>
-              <td className="border p-2">৳২০,০০০</td>
-              <td className="border p-2">৳১০,০০০</td>
-            </tr>
-            <tr>
-              <td className="border p-2">মাঝা পাড়া</td>
-              <td className="border p-2">৳৩৫,০০০</td>
-              <td className="border p-2">৳১৫,০০০</td>
-            </tr>
-            <tr>
-              <td className="border p-2">দক্ষিণ পাড়া</td>
-              <td className="border p-2">৳২৫,০০০</td>
-              <td className="border p-2">৳২০,০০০</td>
-            </tr>
-            <tr>
-              <td className="border p-2">বাইরের অনুদান</td>
-              <td className="border p-2">৳৪০,০০০</td>
-              <td className="border p-2">৳৩০,০০০</td>
-            </tr>
+          <tbody className="bg-white dark:bg-[#1E2939]">
+            {[
+              { para: 'উত্তর পাড়া', income: `৳${uttarParaTk}`, expense: '৳১০,০০০' },
+              { para: 'মাঝা পাড়া', income: '৳৩৫,০০০', expense: '৳১৫,০০০' },
+              { para: 'দক্ষিণ পাড়া', income: '৳২৫,০০০', expense: '৳২০,০০০' },
+              { para: 'বাইরের অনুদান', income: '৳৪০,০০০', expense: '৳৩০,০০০' },
+            ].map((item, index) => (
+              <tr
+                key={index}
+                className="hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors"
+              >
+                <td className="border px-6 py-3">{item.para}</td>
+                <td className="border px-6 py-3">{item.income}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

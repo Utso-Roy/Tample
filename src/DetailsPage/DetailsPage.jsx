@@ -13,7 +13,7 @@ const DetailsPage = () => {
 
 
     return (
-        <div className="hero h-full bg-[#f3f4f6]">
+        <div className="hero h-full dark:bg-[#1e2939] dark:border-2 dark:border-white bg-[#f3f4f6]">
       <div className="hero-content flex-col lg:flex-row-reverse gap-10 p-6">
         <img
           src={image}
@@ -21,9 +21,9 @@ const DetailsPage = () => {
           className="max-w-sm rounded-lg shadow-2xl border-4 border-orange-300"
         />
         <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-800">{name}</h1>
-          <p className="text-lg mt-2 text-gray-700 font-semibold">পদবী: {position}</p>
-          <p className="py-2 text-gray-600">{responsibility}</p>
+          <h1 className="text-4xl md:text-5xl dark:text-orange-400 font-bold text-orange-800">{name}</h1>
+          <p className="text-lg mt-2 dark:text-white text-gray-700 font-semibold">পদবী: {position}</p>
+          <p className="py-2 dark:text-white text-gray-600">{responsibility}</p>
 
           <div className="mt-2 space-y-2">
             <p><strong>Email:</strong> <a href='#' className="text-blue-600">{email}</a></p>

@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-2   gap-3 p-3 bg-base-200 text-base-content  h-[calc(200vh-200px)] overflow-y-auto">
       {data.map((singleData, index) => (
-        <div key={index} className="card bg-base-100 shadow-sm">
+        <div key={index} className="card bg-base-100 dark:bg-[#1E2939] shadow-sm">
           <figure className="px-10 pt-10">
             <img
               src={singleData.image || "https://via.placeholder.com/150"}

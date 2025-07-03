@@ -2,7 +2,7 @@ import React from "react";
 
 const Accounts = () => {
   return (
-    <div className="p-5 h-[calc(200vh-200px)] overflow-y-auto space-y-4">
+    <div className="p-5 h-[calc(200vh-200px)] dark:bg-[#1E2939] dark:border-2 dark:border-white overflow-y-auto space-y-4">
       <h2 className="text-center font-semibold text-3xl">
         মন্দিরের ইতিহাস : রামপুর আখিরা পাড়া হরিমন্দির
       </h2>

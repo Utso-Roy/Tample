@@ -8,7 +8,7 @@ import { MdAddCall } from "react-icons/md";
 const Footer = () => {
   return (
     <div>
-      <footer className="bg-[#7c2d12] text-white p-10">
+      <footer className="bg-[#7c2d12] dark:bg-[#1E2939] text-white p-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         
           <aside>
@@ -64,7 +64,7 @@ const Footer = () => {
       <marquee
         direction="left"
         scrollamount="6"
-        className="text-lg font-semibold text-yellow-100 bg-[#9a3412] py-2 tracking-wider"
+        className="text-lg font-semibold dark:bg-[#1E2939] text-yellow-100 bg-[#9a3412] py-2 tracking-wider"
       >
      রামপুর আখিরা পাড়া হরি মন্দির - সকলকে স্বাগতম 🙏
       </marquee>
