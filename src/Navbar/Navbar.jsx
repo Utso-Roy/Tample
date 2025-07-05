@@ -136,7 +136,7 @@ const Navbar = () => {
             user ? (
               <details className="dropdown dropdown-end">
                 <summary
-                  className="avatar cursor-pointer tooltip"
+                  className="avatar cursor-pointer tooltip tooltip-bottom"
                   data-tip={user?.displayName || "User"}
                 >
                   <div className="w-12 h-12 rounded-full overflow-hidden">

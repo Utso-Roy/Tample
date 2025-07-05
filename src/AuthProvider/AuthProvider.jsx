@@ -13,11 +13,12 @@ const auth = getAuth(app);
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
-  const [uttarParaTk, setUttarParaTk] = useState(0)
+  const [loading, setLoading] = useState(true);
+  const [uttarParaTk, setUttarParaTk] = useState(0);
+ 
+  
 
-
-
+  
   const creatUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -25,47 +26,38 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false)
+      setLoading(false);
     });
-      
 
     return () => {
       unsubscribe();
     };
   }, []);
-    
-    const logOut = () => {
 
-      return  signOut(auth)
-        
+  const logOut = () => {
+    return signOut(auth);
+  };
 
-  }
-
-  const googleProvider = new GoogleAuthProvider()
+  const googleProvider = new GoogleAuthProvider();
   const googleLogin = () => {
-    
-    return signInWithPopup(auth,googleProvider)
-  }
-    
-    
-    
-    const loginUser = (email,password) => {
-        
+    return signInWithPopup(auth, googleProvider);
+  };
 
-        return signInWithEmailAndPassword(auth, email, password)
-    }
+  const loginUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   const info = {
     creatUser,
     user,
-      setUser,
-      loginUser,
+    setUser,
+    loginUser,
     logOut,
     googleLogin,
     loading,
     setLoading,
     uttarParaTk,
-    setUttarParaTk
+    setUttarParaTk,
   };
 
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;

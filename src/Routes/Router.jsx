@@ -24,6 +24,7 @@ import ExpenseReport from "../ExpenseReport/ExpenseReport";
 import Stats from "../Stats/Stats";
 import Overview from "../Overview/Overview";
 import PujaSchedule from "../PujaShcedule/PujaShcdule";
+import UploadFile from "../Upload/UploadFile";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
       {
         path: "/pujaSchedule",
         element : <PrivateRoute><PujaSchedule></PujaSchedule> </PrivateRoute>
+      },
+      {
+        path: "/uploadFile",
+        element : <PrivateRoute><UploadFile></UploadFile> </PrivateRoute>
       },
       {
         path: "/uttarPara",

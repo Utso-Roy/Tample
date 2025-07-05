@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { FaClipboardList, FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoIosAddCircle, IoMdAddCircleOutline } from 'react-icons/io';
-import { MdArrowBack } from 'react-icons/md'; // ✅ Back icon import
+import { MdArrowBack } from 'react-icons/md'; 
 
 const MajaPara = () => {
     const [name, setName] = useState('');

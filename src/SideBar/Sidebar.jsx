@@ -97,7 +97,7 @@ const Sidebar = () => {
             <FaFileUpload /> Files
           </h3>
           <ul className="space-y-1 pl-6">
-            <NavLink to="/uploadReceipt" className={navItemClass}>
+            <NavLink to="/uploadFile" className={navItemClass}>
               <FaFileUpload /> Upload Receipt
             </NavLink>
           </ul>
