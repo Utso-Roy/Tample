@@ -1,158 +1,143 @@
-import React, { useState } from 'react';
-import Swal from 'sweetalert2';
-import { FaClipboardList, FaRegMoneyBillAlt } from 'react-icons/fa';
-import { IoIosAddCircle, IoMdAddCircleOutline } from 'react-icons/io';
-import { MdArrowBack } from 'react-icons/md'; 
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const MajaPara = () => {
-    const [name, setName] = useState('');
-    const [tk, setTk] = useState('');
-    const [dataList, setDataList] = useState([]);
+  const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
+  const [dataList, setDataList] = useState([]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (name && tk) {
-            const newData = {
-                id: Date.now(),
-                name,
-                tk: parseFloat(tk),
-                date: new Date().toLocaleDateString("bn-BD")
-            };
-            setDataList([newData, ...dataList]);
-            setName('');
-            setTk('');
+  // Fetch data from server
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/donations")
+      .then((res) => {
+        setDataList(res.data); 
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
-            Swal.fire({
-                icon: 'success',
-                title: 'সফলভাবে যুক্ত হয়েছে!',
-                text: `৳ ${newData.tk.toFixed(2)} অনুদান ${newData.name} নামের জন্য যোগ করা হয়েছে।`,
-                confirmButtonColor: '#ca8a04'
-            });
-        }
+  // Calculate total safely
+  const totalTk = (dataList || []).reduce((total, item) => total + (item.tk || 0), 0);
+
+  // Form submit handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newData = {
+      ...formData,
+      tk: parseFloat(formData.tk) || 0,
     };
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: 'আপনি কি নিশ্চিত?',
-            text: "এই অনুদানটি মুছে ফেলতে চান?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ca8a04',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'হ্যাঁ, মুছে ফেলুন',
-            cancelButtonText: 'না'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const newList = dataList.filter(item => item.id !== id);
-                setDataList(newList);
-                Swal.fire('মুছে ফেলা হয়েছে!', 'অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।', 'success');
-            }
-        });
-    };
+    axios
+      .post("http://localhost:3000/donations", newData)
+      .then((res) => {
+        const insertedDonation = { ...newData, _id: res.data.insertedId };
+        setDataList([...dataList, insertedDonation]);
+Swal.fire("সফল হয়েছে", "অনুদান সফলভাবে যোগ করা হয়েছে!",);
+        setFormData({ date: "", name: "", tk: "" });
+      })
+      .catch((err) => {
+        console.error(err);
+Swal.fire("ত্রুটি", "অনুদান যোগ করা সম্ভব হয়নি।",);
+      });
+  };
 
-    const totalTk = dataList.reduce((total, item) => total + item.tk, 0);
+  // Delete handler
+  const handleDelete = async (id) => {
+    try {
+      const confirm = await Swal.fire({
+        title: 'আপনি কি নিশ্চিত?',
+        text: "এই অনুদানটি মুছে ফেলতে চান?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ca8a04',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'হ্যাঁ, মুছে ফেলুন',
+        cancelButtonText: 'না',
+      });
 
-    return (
-        <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">
-            {/* Back Button */}
-            <div className="mb-6">
+      if (confirm.isConfirmed) {
+        await axios.delete(`http://localhost:3000/donations/${id}`);
+        setDataList(dataList.filter(item => item._id !== id));
+        Swal.fire('মুছে ফেলা হয়েছে!', 'অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।', 'success');
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire('ত্রুটি', 'অনুদান মুছে ফেলতে ব্যর্থ হয়েছে।', 'error');
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl text-center text-yellow-500 font-bold mb-4">মাঝাপাড়া দান তালিকা</h1>
+
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <input
+          type="date"
+          required
+          value={formData.date}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+          className="border p-2 rounded"
+        />
+        <input
+          type="text"
+          required
+          placeholder="নাম"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          className="border p-2 rounded"
+        />
+        <input
+          type="number"
+          required
+          placeholder="৳"
+          value={formData.tk}
+          onChange={(e) => setFormData({ ...formData, tk: e.target.value })}
+          className="border p-2 rounded"
+        />
+        <button type="submit" className="col-span-full cursor-pointer bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600">
+          Add Donation
+        </button>
+      </form>
+
+      <table className="w-full table-auto border-collapse border">
+        <thead>
+          <tr className="bg-gray-100 dark:bg-gray-700">
+            <th className="border p-2">তারিখ</th>
+            <th className="border p-2">নাম</th>
+            <th className="border p-2">টাকা</th>
+            <th className="border p-2">অ্যাকশন</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataList?.map((item, index) => (
+            <tr key={item._id || index} className="text-center">
+              <td className="border p-2">{item.date}</td>
+              <td className="border p-2">{item.name}</td>
+              <td className="border p-2 text-yellow-600 font-bold">৳ {(item.tk ?? 0).toFixed(2)}</td>
+              <td className="border p-2">
                 <button
-                    onClick={() => window.history.back()}
-                    className="flex items-center cursor-pointer gap-2 text-yellow-600 hover:text-yellow-700 font-medium"
+                  onClick={() => handleDelete(item._id)}
+                  className="bg-red-600 cursor-pointer text-white px-3 py-1 rounded hover:bg-red-700"
                 >
-                    <MdArrowBack size={22} /> পেছনে যান
+                  Delete
                 </button>
-            </div>
-
-            {/* Header */}
-            <h2 className="text-3xl font-bold flex gap-2 justify-center items-center text-yellow-600 dark:text-yellow-400 mb-8">
-                <FaRegMoneyBillAlt size={30} /> মাঝাপাড়া অনুদান ব্যবস্থাপনা
-            </h2>
-
-            {/* Form Section */}
-            <div className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-xl p-6">
-                <h3 className="text-2xl flex gap-2 items-center font-semibold text-yellow-600 dark:text-yellow-400 mb-4">
-                    <IoIosAddCircle size={24} /> অনুদান যোগ করুন
-                </h3>
-
-                <form onSubmit={handleSubmit} className="grid sm:grid-cols-4 gap-4">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="দানকারীর নাম"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="input input-bordered w-full border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600"
-                        required
-                    />
-                    <input
-                        type="number"
-                        name="tk"
-                        placeholder="পরিমাণ (৳)"
-                        value={tk}
-                        onChange={(e) => setTk(e.target.value)}
-                        className="input input-bordered w-full border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600"
-                        required
-                    />
-                    <button
-                        type="submit"
-                        className="btn bg-yellow-600 text-white hover:bg-yellow-700 w-full flex justify-center items-center gap-2"
-                    >
-                        <IoMdAddCircleOutline size={18} /> যোগ করুন
-                    </button>
-                </form>
-
-                <div className="text-right mt-6 text-lg font-semibold text-yellow-600 dark:text-yellow-400">
-                    মোট অনুদান: <span className="text-xl font-bold">৳ {totalTk.toFixed(2)}</span>
-                </div>
-            </div>
-
-            {/* Table Section */}
-            <div className="mt-10">
-                <h3 className="text-2xl flex gap-2 items-center font-semibold text-yellow-600 dark:text-yellow-400 mb-4">
-                    <FaClipboardList size={22} /> অনুদানের তালিকা
-                </h3>
-                <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-600">
-                    <table className="table table-zebra w-full">
-                        <thead className="bg-yellow-200 dark:bg-gray-700 text-yellow-700 dark:text-yellow-400">
-                            <tr>
-                                <th className="text-left px-4 py-3">তারিখ</th>
-                                <th className="text-left px-4 py-3">নাম</th>
-                                <th className="text-left px-4 py-3">পরিমাণ (৳)</th>
-                                <th className="text-left px-4 py-3">অ্যাকশন</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {dataList.map((item) => (
-                                <tr key={item.id} className="hover:bg-yellow-50 dark:hover:bg-gray-800">
-                                    <td className="px-4 py-2 text-yellow-700 dark:text-yellow-300">{item.date}</td>
-                                    <td className="px-4 py-2 text-yellow-700 dark:text-yellow-300">{item.name}</td>
-                                    <td className="px-4 py-2 text-yellow-700 dark:text-yellow-300 font-medium">
-                                        ৳ {item.tk.toFixed(2)}
-                                    </td>
-                                    <td className="px-4 py-2">
-                                        <button
-                                            onClick={() => handleDelete(item.id)}
-                                            className="btn border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            {dataList.length === 0 && (
-                                <tr>
-                                    <td colSpan="4" className="text-center py-6 font-semibold text-gray-500 dark:text-gray-400">
-                                        এখনো কোনো অনুদান যোগ করা হয়নি।
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    );
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr className="bg-gray-200 font-bold">
+            <td colSpan="3" className="border p-2 text-right">
+              মোট
+            </td>
+            <td className="border p-2 text-yellow-600">৳ {totalTk.toFixed(2)}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  );
 };
 
 export default MajaPara;

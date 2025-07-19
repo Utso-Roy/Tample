@@ -31,7 +31,8 @@ const AddExpense = () => {
       </h2>
 
       {/* Form */}
-      <div className="bg-white dark:bg-[#334155] rounded-lg shadow-md p-6">
+
+<div className="bg-white dark:bg-[#334155] rounded-lg shadow-md p-6">
         <h3 className="text-xl font-semibold flex gap-2 items-center text-red-600 dark:text-red-400 mb-4">
           <IoIosAddCircle /> খরচ যোগ করুন
         </h3>
