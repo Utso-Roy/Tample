@@ -1,36 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaClipboardList, FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoIosAddCircle, IoMdAddCircleOutline } from 'react-icons/io';
-import { MdArrowBack } from 'react-icons/md'; 
+import { MdArrowBack } from 'react-icons/md';
 
 const OutCollection = () => {
     const [name, setName] = useState('');
     const [tk, setTk] = useState('');
     const [dataList, setDataList] = useState([]);
+    const API_URL = 'http://localhost:3000/out-collections'; 
 
-    const handleSubmit = (e) => {
+    // Fetch all donations on component mount
+    useEffect(() => {
+        axios.get(API_URL)
+            .then(res => setDataList(res.data))
+            .catch(() => Swal.fire('Error',  'error'));
+    }, []);
+
+    //  Add new donation
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (name && tk) {
             const newData = {
-                id: Date.now(),
                 name,
                 tk: parseFloat(tk),
                 date: new Date().toLocaleDateString("bn-BD")
             };
-            setDataList([newData, ...dataList]);
-            setName('');
-            setTk('');
-
-            Swal.fire({
-                icon: 'success',
-                title: 'সফলভাবে যুক্ত হয়েছে!',
-                text: `৳ ${newData.tk.toFixed(2)} অনুদান ${newData.name} নামের জন্য যোগ করা হয়েছে।`,
-                confirmButtonColor: '#7f1d1d'
-            });
+            try {
+                const res = await axios.post(API_URL, newData);
+                setDataList([res.data, ...dataList]);
+                setName('');
+                setTk('');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'সফলভাবে যুক্ত হয়েছে!',
+                    text: `৳ ${res.data.tk.toFixed(2)} অনুদান ${res.data.name} নামের জন্য যোগ করা হয়েছে।`,
+                    confirmButtonColor: '#7f1d1d'
+                });
+            } catch (err) {
+                Swal.fire('Error', 'ডাটা যোগ করতে সমস্যা হয়েছে', 'error');
+            }
         }
     };
 
+    // ✅ Delete donation by ID
     const handleDelete = (id) => {
         Swal.fire({
             title: 'আপনি কি নিশ্চিত?',
@@ -41,20 +55,23 @@ const OutCollection = () => {
             cancelButtonColor: '#6b7280',
             confirmButtonText: 'হ্যাঁ, মুছে ফেলুন',
             cancelButtonText: 'না'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                const newList = dataList.filter(item => item.id !== id);
-                setDataList(newList);
-                Swal.fire('মুছে ফেলা হয়েছে!', 'অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।', 'success');
+                try {
+                    await axios.delete(`${API_URL}/${id}`);
+                    setDataList(dataList.filter(item => item._id !== id));
+                    Swal.fire('মুছে ফেলা হয়েছে!', 'অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।', 'success');
+                } catch (err) {
+                    Swal.fire('Error', 'ডাটা মুছে ফেলতে সমস্যা হয়েছে', 'error');
+                }
             }
         });
     };
 
-    const totalTk = dataList.reduce((total, item) => total + item.tk, 0);
+    const totalTk = dataList.reduce((total, item) => total + parseFloat(item.tk || 0), 0);
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">
-            
             {/* Back Button */}
             <div className="mb-6">
                 <button
@@ -70,16 +87,14 @@ const OutCollection = () => {
                 <FaRegMoneyBillAlt size={30} /> বাইরের অনুদান ব্যবস্থাপনা
             </h2>
 
-            {/* Form Section */}
+            {/* Form */}
             <div className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-xl p-6">
                 <h3 className="text-2xl flex gap-2 items-center font-semibold text-[#7f1d1d] dark:text-red-400 mb-4">
                     <IoIosAddCircle size={24} /> অনুদান যোগ করুন
                 </h3>
-
                 <form onSubmit={handleSubmit} className="grid sm:grid-cols-4 gap-4">
                     <input
                         type="text"
-                        name="name"
                         placeholder="দানকারীর নাম"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -88,7 +103,6 @@ const OutCollection = () => {
                     />
                     <input
                         type="number"
-                        name="tk"
                         placeholder="পরিমাণ (৳)"
                         value={tk}
                         onChange={(e) => setTk(e.target.value)}
@@ -108,7 +122,7 @@ const OutCollection = () => {
                 </div>
             </div>
 
-            {/* Table Section */}
+            {/* Table */}
             <div className="mt-10">
                 <h3 className="text-2xl flex gap-2 items-center font-semibold text-[#7f1d1d] dark:text-red-400 mb-4">
                     <FaClipboardList size={22} /> অনুদানের তালিকা
@@ -125,15 +139,13 @@ const OutCollection = () => {
                         </thead>
                         <tbody>
                             {dataList.map((item) => (
-                                <tr key={item.id} className="hover:bg-[#fef2f2] dark:hover:bg-gray-800">
-                                    <td className="px-4 py-2 text-[#7f1d1d] dark:text-red-300">{item.date}</td>
-                                    <td className="px-4 py-2 text-[#7f1d1d] dark:text-red-300">{item.name}</td>
-                                    <td className="px-4 py-2 text-[#7f1d1d] dark:text-red-300 font-medium">
-                                        ৳ {item.tk.toFixed(2)}
-                                    </td>
+                                <tr key={item._id}>
+                                    <td className="px-4 py-2">{item.date}</td>
+                                    <td className="px-4 py-2">{item.name}</td>
+                                    <td className="px-4 py-2 font-medium">৳ {parseFloat(item.tk).toFixed(2)}</td>
                                     <td className="px-4 py-2">
                                         <button
-                                            onClick={() => handleDelete(item.id)}
+                                            onClick={() => handleDelete(item._id)}
                                             className="btn border-[#7f1d1d] text-[#7f1d1d] hover:bg-[#7f1d1d] hover:text-white"
                                         >
                                             Delete
