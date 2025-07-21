@@ -25,6 +25,12 @@ import Stats from "../Stats/Stats";
 import Overview from "../Overview/Overview";
 import PujaSchedule from "../PujaShcedule/PujaShcdule";
 import UploadFile from "../Upload/UploadFile";
+import CurrentBills from "../CurrentBills/CurrentBills";
+import PujarKhoroz from "../PujarKhoroz/PujarKhoroz.";
+import ProsadBills from "../ProsadBills/ProsadBills";
+import OutsideBills from "../OutsideBills/OutsideBills";
+import DecorationBills from "../DecorationBills/DecorationBills";
+import KhoriBills from "../KhoriBills/KhoriBills";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +130,32 @@ const router = createBrowserRouter([
       {
         path: "/outCollection",
         element : <OutCollection></OutCollection>
+      },
+      {
+        path: "/expenses/puja",
+        element : <PujarKhoroz></PujarKhoroz>
+      },
+      {
+        path: "/expenses/electricity",
+        element : <PrivateRoute><CurrentBills></CurrentBills> </PrivateRoute>
+      },
+      {
+        path: "/expenses/prasad",
+        element : <PrivateRoute><ProsadBills></ProsadBills> </PrivateRoute>
+      },
+      {
+        path: "/expenses/outside",
+        element : <PrivateRoute><OutsideBills></OutsideBills> </PrivateRoute>
+      },
+     
+      {
+        path: "/expenses/decoration",
+        element : <PrivateRoute><DecorationBills></DecorationBills> </PrivateRoute>
+      },
+     
+      {
+        path: "/expenses/kharhi",
+        element : <PrivateRoute><KhoriBills></KhoriBills> </PrivateRoute>
       },
      
     ]

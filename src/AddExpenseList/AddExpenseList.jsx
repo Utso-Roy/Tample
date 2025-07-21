@@ -1,35 +1,72 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const AddExpenseList = () => {
+  const expenseItems = [
+    {
+      title: 'পূজার খরচ',
+      link: '/expenses/puja',
+      bg: 'bg-red-100',
+      text: 'text-red-800',
+      hover: 'hover:bg-red-200'
+    },
+    {
+      title: 'বিদ্যুৎ বিল',
+      link: '/expenses/electricity',
+      bg: 'bg-blue-100',
+      text: 'text-blue-800',
+      hover: 'hover:bg-blue-200'
+    },
+    {
+      title: 'প্রসাদের খরচ',
+      link: '/expenses/prasad',
+      bg: 'bg-purple-100',
+      text: 'text-purple-800',
+      hover: 'hover:bg-purple-200'
+    },
+    {
+      title: 'বাহিরের খরচ',
+      link: '/expenses/outside',
+      bg: 'bg-yellow-100',
+      text: 'text-yellow-800',
+      hover: 'hover:bg-yellow-200'
+    },
+    {
+      title: 'ডেকোরেশন খরচ',
+      link: '/expenses/decoration',
+      bg: 'bg-green-100',
+      text: 'text-green-800',
+      hover: 'hover:bg-green-200'
+    },
+    {
+      title: 'খড়ি বাবদ খরচ',
+      link: '/expenses/kharhi',
+      bg: 'bg-cyan-100',
+      text: 'text-cyan-800',
+      hover: 'hover:bg-cyan-200'
+    },
+  ];
+
   return (
-    <div className="max-w-5xl mx-auto h-full px-4 py-10 bg-[#f3f4f6] dark:bg-[#1E2939] dark:border dark:border-white rounded-xl shadow">
-      <h2 className="text-3xl font-bold flex gap-2 justify-center items-center mb-8 text-[#991b1b] dark:text-red-400">
-        <img className='w-10 h-10' src="https://i.ibb.co/Q3K1Q4MC/spending.png" alt="Expense" />
+    <div className="max-w-5xl mx-auto p-6 bg-white dark:bg-[#1E293B] shadow rounded-xl">
+      <h2 className="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-400 flex items-center justify-center gap-2">
+        <img src="https://i.ibb.co/Q3K1Q4MC/spending.png" alt="Expense" className="w-10 h-10" />
         ব্যয় তালিকা
       </h2>
 
-      <h2 className="text-2xl font-bold text-center mb-10 text-[#991b1b] dark:text-red-300">
+      <h3 className="text-xl font-semibold text-center mb-10 text-red-700 dark:text-red-300">
         মোট ব্যয় : <span>৭৫,৫০০ টাকা</span>
-      </h2>
+      </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card Item */}
-        {[
-          { title: 'পূজার খরচ', bg: 'bg-[#fef2f2]', hover: 'hover:bg-red-100', text: 'text-[#7f1d1d]', border: 'border-[#fecaca]' },
-          { title: 'বিদ্যুৎ বিল', bg: 'bg-[#f0f9ff]', hover: 'hover:bg-blue-100', text: 'text-[#1e40af]', border: 'border-[#bae6fd]' },
-          { title: 'প্রসাদের খরচ', bg: 'bg-[#fdf4ff]', hover: 'hover:bg-purple-100', text: 'text-[#7e22ce]', border: 'border-[#f3e8ff]' },
-          { title: 'বাহিরের খরচ', bg: 'bg-[#fefce8]', hover: 'hover:bg-yellow-100', text: 'text-[#854d0e]', border: 'border-[#fef08a]' },
-          { title: 'ডেকোরেশন খরচ', bg: 'bg-[#f0fdf4]', hover: 'hover:bg-green-100', text: 'text-[#14532d]', border: 'border-[#bbf7d0]' },
-          { title: 'খড়ি বাবদ খরচ', bg: 'bg-[#f0f9ff]', hover: 'hover:bg-blue-100', text: 'text-[#1e40af]', border: 'border-[#bae6fd]' },
-        ].map((item, index) => (
-          <button
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {expenseItems.map((item, index) => (
+          <Link
+            to={item?.link}
             key={index}
-            className={`w-full p-6 rounded-lg shadow-md border ${item.bg} ${item.hover} ${item.border} dark:bg-[#334155] dark:border-white dark:hover:bg-[#475569] transition duration-300`}
+            className={`block p-5 rounded-lg shadow  transition text-center dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white ${item.bg} ${item.text} ${item.hover}`}
           >
-            <h3 className={`text-xl font-semibold text-center ${item.text} dark:text-white mb-2`}>
-              {item.title}
-            </h3>
-          </button>
+            <h4 className="text-lg font-medium">{item?.title}</h4>
+          </Link>
         ))}
       </div>
     </div>
