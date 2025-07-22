@@ -5,11 +5,13 @@ import { IoIosAddCircle, IoMdAddCircleOutline } from "react-icons/io";
 import { MdArrowBack } from "react-icons/md";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import Loading from "../Loader/Loading";
 const UttarPara = () => {
   const [name, setName] = useState("");
     const [tk, setTk] = useState("");
     const [dataList,setDataList] = useState([])
-    const { uttarParaTk,setUttarParaTk  } = use(AuthContext);
+  const { uttarParaTk, setUttarParaTk } = use(AuthContext);
+  const [loading,setLoading] = useState(true)
 
   useEffect(() => {
     axios
@@ -17,6 +19,7 @@ const UttarPara = () => {
       .then((res) => {
         if (res.data.success) {
           setDataList(res.data.data);
+          setLoading(false)
         }
       })
       .catch((err) => {
@@ -111,6 +114,13 @@ const UttarPara = () => {
       }
     });
   };
+
+
+
+  if (loading) {
+  
+    return <Loading></Loading>
+  }
 
 
          const totalTk = dataList.reduce((total, item) => total + item.tk, 0);

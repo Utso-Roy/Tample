@@ -1,6 +1,7 @@
 import React, { use } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import { Navigate } from 'react-router';
+import Loading from '../Loader/Loading';
 
 const PrivateRoute = ({ children }) => {
     const { user, loading } = use(AuthContext) 
@@ -8,7 +9,7 @@ const PrivateRoute = ({ children }) => {
         return (
             <div className='flex justify-center  my-36'>
 
-                <span  className="loading loading-bars loading-xl"></span>
+               <Loading></Loading> 
             </div>
         )
     }

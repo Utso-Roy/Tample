@@ -4,16 +4,23 @@ import Swal from "sweetalert2";
 import { FaClipboardList, FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoIosAddCircle, IoMdAddCircleOutline } from "react-icons/io";
 import { MdArrowBack } from "react-icons/md"; 
+import Loading from "../Loader/Loading";
 const AddExpense = () => {
   const [expenseValue, setExpenseValue] = useState([]);
+    const [loading,setLoading] = useState(true)
+
 
   const fetchExpenses = async () => {
     const res = await axios.get("http://localhost:3000/expenses");
-    setExpenseValue(res.data);
+    {
+      setExpenseValue(res.data)
+      setLoading(false)
+    };
   };
 
   useEffect(() => {
     fetchExpenses();
+    
   }, []);
 
   const handleSubmit = async (e) => {
@@ -63,6 +70,14 @@ const AddExpense = () => {
   };
 
   const total = expenseValue.reduce((sum, item) => sum + parseFloat(item.number), 0);
+
+   if (loading) {
+    return <Loading></Loading>
+  }
+
+
+
+
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 dark:bg-[#1E2939] dark:border dark:border-white rounded-xl shadow">

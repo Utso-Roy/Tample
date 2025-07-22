@@ -4,6 +4,7 @@ import { CiCalendarDate } from "react-icons/ci";
 import { FaClipboardList } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import Swal from "sweetalert2";
+import Loading from "../Loader/Loading";
 
 const AddIncome = () => {
   const [amount, setAmount] = useState("");
@@ -34,7 +35,7 @@ const AddIncome = () => {
   if (loading) {
     return (
       <div className="flex  justify-center my-40 ">
-        <span className="loading loading-spinner loading-xl"></span>
+        <Loading></Loading>
       </div>
     );
   }

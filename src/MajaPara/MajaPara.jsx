@@ -3,18 +3,21 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router"; 
+import Loading from "../Loader/Loading";
 
 const MajaPara = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(true)
 
   // Fetch data from server
   useEffect(() => {
     axios
       .get("http://localhost:3000/donations")
       .then((res) => {
-        setDataList(res.data); 
+        setDataList(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         console.error(err);
@@ -70,6 +73,16 @@ const MajaPara = () => {
       Swal.fire('ত্রুটি', 'অনুদান মুছে ফেলতে ব্যর্থ হয়েছে।', 'error');
     }
   };
+
+  if (loading) {
+   return <Loading></Loading>
+ }
+
+
+
+
+
+
 
   return (
     <div className="max-w-4xl mx-auto p-6">

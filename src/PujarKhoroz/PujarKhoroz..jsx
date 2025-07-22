@@ -2,17 +2,23 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router"; // Updated: Correct import
+import { useNavigate } from "react-router";
+import Loading from "../Loader/Loading";
 
 const PujarKhoroz = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(true)
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/puja-expenses")
-      .then((res) => setDataList(res.data))
+      .then((res) => {
+        
+        setDataList(res.data)
+        setLoading(false)
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -59,6 +65,15 @@ const PujarKhoroz = () => {
     }
   };
 
+
+  if (loading) {
+    return <Loading></Loading>
+  }
+
+
+
+
+
   return (
     <div className="max-w-4xl mx-auto p-6  dark:bg-gray-900 rounded shadow">
       {/* Back Button */}
@@ -70,7 +85,7 @@ const PujarKhoroz = () => {
         পিছনে যান
       </button>
 
-      <h1 className="text-2xl text-center text-red-700 dark:text-red-400 font-bold mb-4">
+      <h1 className="text-2xl text-center text-red-500 dark:text-red-400 font-bold mb-4">
         পূজার খরচ
       </h1>
 
@@ -101,7 +116,7 @@ const PujarKhoroz = () => {
         />
         <button
           type="submit"
-          className="btn col-span-full bg-red-600 hover:bg-red-700 text-white"
+          className="btn col-span-full bg-red-500 hover:bg-red-600 text-white"
         >
           খরচ যোগ করুন
         </button>

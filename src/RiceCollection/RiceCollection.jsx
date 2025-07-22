@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FaClipboardList, FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoIosAddCircle, IoMdAddCircleOutline } from 'react-icons/io';
 import { MdArrowBack } from 'react-icons/md'; 
+import Loading from '../Loader/Loading';
 
 const API_URL = "http://localhost:3000/rice-collections";
 
@@ -12,6 +13,7 @@ const RiceCollection = () => {
     const [kg, setKg] = useState('');
     const [dataList, setDataList] = useState([]);
     const [loading, setLoading] = useState(true);
+
 
     // Fetch data from backend on mount
     useEffect(() => {
@@ -87,6 +89,13 @@ const RiceCollection = () => {
     };
 
     const totalKg = dataList.reduce((total, item) => total + (item.kg || 0), 0);
+
+     if (loading) {
+    return <Loading></Loading>
+  }
+
+
+
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">

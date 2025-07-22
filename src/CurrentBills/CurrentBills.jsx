@@ -3,16 +3,23 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import Loading from "../Loader/Loading";
 
 const CurrentBills = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
+    const [loading,setLoading] = useState(true)
+
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/current-bills")
-      .then((res) => setDataList(res.data))
+      .then((res) => {
+        
+        setDataList(res.data)
+        setLoading(false)
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -28,6 +35,7 @@ const CurrentBills = () => {
     axios
       .post("http://localhost:3000/current-bills", newData)
       .then((res) => {
+        console.log(res.data)
         const inserted = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, inserted]);
         Swal.fire("সফল", "বিল যুক্ত হয়েছে!", "success");
@@ -59,12 +67,19 @@ const CurrentBills = () => {
     }
   };
 
+
+
+  if (loading) {
+    
+    return <Loading></Loading>
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 dark:bg-gray-900 rounded shadow">
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center mb-4 text-blue-500 hover:text-blue-800 dark:text-blue-400"
+        className="flex items-center mb-4 cursor-pointer text-blue-500 hover:text-blue-800 dark:text-blue-400"
       >
         <FaArrowLeft className="mr-2" />
         পিছনে যান
@@ -101,7 +116,7 @@ const CurrentBills = () => {
         />
         <button
           type="submit"
-          className="btn col-span-full bg-blue-600 hover:bg-blue-700 text-white"
+          className="btn col-span-full bg-blue-500 hover:bg-blue-600 text-white"
         >
           বিল যোগ করুন
         </button>

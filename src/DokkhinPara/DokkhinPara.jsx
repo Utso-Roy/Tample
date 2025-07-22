@@ -3,18 +3,20 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { IoArrowBackCircleOutline } from "react-icons/io5"; // Back icon
+import Loading from "../Loader/Loading";
 
 const DokkhinPara = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
-
+  const [loading,setLoading] = useState(true)
   // Fetch data from server
   useEffect(() => {
     axios
       .get("http://localhost:3000/dokkhin-donations")
       .then((res) => {
         setDataList(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         console.error(err);
@@ -70,6 +72,12 @@ const DokkhinPara = () => {
       Swal.fire("ত্রুটি", "অনুদান মুছে ফেলতে ব্যর্থ হয়েছে।", "error");
     }
   };
+
+
+
+  if (loading) {
+    return <Loading></Loading>
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">

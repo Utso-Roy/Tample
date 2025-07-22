@@ -4,18 +4,25 @@ import Swal from "sweetalert2";
 import { FaClipboardList, FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoIosAddCircle, IoMdAddCircleOutline } from "react-icons/io";
 import { MdArrowBack } from "react-icons/md";
+import Loading from "../Loader/Loading";
 
 const OutCollection = () => {
   const [name, setName] = useState("");
   const [tk, setTk] = useState("");
   const [dataList, setDataList] = useState([]);
   const API_URL = "http://localhost:3000/out-collections";
+    const [loading,setLoading] = useState(true)
+
 
   // Fetch all donations on component mount
   useEffect(() => {
     axios
       .get(API_URL)
-      .then((res) => setDataList(res.data))
+      .then((res) => {
+
+        setDataList(res.data)
+        setLoading(false)
+      })
       .catch(() => Swal.fire("Error", "error"));
   }, []);
 
@@ -80,6 +87,11 @@ const OutCollection = () => {
     (total, item) => total + parseFloat(item.tk || 0),
     0
   );
+
+   if (loading) {
+    return <Loading></Loading>
+  }
+
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">
