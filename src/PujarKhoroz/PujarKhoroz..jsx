@@ -152,7 +152,7 @@ const PujarKhoroz = () => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-red-100 dark:bg-gray-800 font-bold">
+          <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
               <td colSpan="3" className="text-right border p-2 text-red-700 dark:text-red-300">
                 মোট

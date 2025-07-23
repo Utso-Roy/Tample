@@ -151,7 +151,7 @@ const DecorationBills = () => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-green-100 dark:bg-gray-800 font-bold">
+          <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
               <td colSpan="3" className="text-right border p-2 text-green-700 dark:text-green-300">
                 মোট

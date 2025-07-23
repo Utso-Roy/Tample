@@ -152,7 +152,7 @@ const CurrentBills = () => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-blue-100 dark:bg-gray-800 font-bold">
+          <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
               <td colSpan="3" className="text-right border p-2 text-blue-700 dark:text-blue-300">
                 মোট

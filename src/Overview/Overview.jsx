@@ -1,10 +1,41 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../AuthProvider/AuthProvider';
+import React, { useEffect, useState } from 'react';
 
 const Overview = () => {
-  const { uttarParaTk } = useContext(AuthContext);
 
-  console.log(uttarParaTk)
+  const [uttarParatk, setUttarParaTk] = useState([])
+  const [dokhinParatk, setDokhinParaTk] = useState([])
+  const [majhaParatk, setMajhaParaTk] = useState([])
+
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/uttarPara/totalTk')
+      .then(res => res.json())
+    .then(data =>setUttarParaTk(data))
+    
+  }, [])
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/dokkhinParaTotalTk')
+      .then(res => res.json())
+    .then(data =>setDokhinParaTk(data))
+    
+  }, [])
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/majhaParaTotalTk')
+      .then(res => res.json())
+    .then(data => setMajhaParaTk(data))
+    
+  }, [])
+  
+
+  const totalTkUttarPara = uttarParatk[0]?.totalTk || 0
+  const totalTkDokkhinPara = dokhinParatk[0]?.totalTk || 0
+  const totalTkMajhaPara = majhaParatk[0]?.totalTk || 0
+  
+  console.log(majhaParatk)
+
+
 
   return (
     <div className="max-w-6xl mx-auto h-full bg-[#f3f4f6] dark:bg-[#1E2939] dark:border dark:border-white px-6 py-12 transition-colors duration-300">
@@ -46,9 +77,9 @@ const Overview = () => {
           </thead>
           <tbody className="bg-white dark:bg-[#1E2939]">
             {[
-              { para: 'উত্তর পাড়া', income: `৳${uttarParaTk}`, expense: '৳১০,০০০' },
-              { para: 'মাঝা পাড়া', income: '৳৩৫,০০০', expense: '৳১৫,০০০' },
-              { para: 'দক্ষিণ পাড়া', income: '৳২৫,০০০', expense: '৳২০,০০০' },
+              { para: 'উত্তর পাড়া', income: `${totalTkUttarPara.toFixed(2)}`, expense: '৳১০,০০০' },
+              { para: 'মাঝা পাড়া', income:` ${totalTkMajhaPara.toFixed(2)}`, expense: '৳১৫,০০০' },
+              { para: 'দক্ষিণ পাড়া', income:  ` ${totalTkDokkhinPara.toFixed(2)}`, expense: '৳২০,০০০' },
               { para: 'বাইরের অনুদান', income: '৳৪০,০০০', expense: '৳৩০,০০০' },
             ].map((item, index) => (
               <tr
@@ -56,7 +87,7 @@ const Overview = () => {
                 className="hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors"
               >
                 <td className="border px-6 py-3">{item.para}</td>
-                <td className="border px-6 py-3">{item.income}</td>
+                <td className="border px-6 font-semibold py-3">{item?.income}</td>
               </tr>
             ))}
           </tbody>

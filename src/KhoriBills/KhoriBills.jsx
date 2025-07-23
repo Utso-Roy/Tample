@@ -8,79 +8,74 @@ import Loading from "../Loader/Loading";
 const KhoriBills = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [loading,setLoading] = useState(true)
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/khori-bills")
-      .then((res) => {
-        setDataList(res.data);
-        setLoading(false);
+        .then((res) => {
+          
+setLoading(false)
+            setDataList(res.data)
+
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Fetch error:", err));
   }, []);
 
-  const totalTk = (dataList || []).reduce(
-    (total, item) => total + (item.tk || 0),
-    0
-  );
+  const totalTk = dataList.reduce((total, item) => total + (parseFloat(item.tk) || 0), 0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newData = {
-      ...formData,
+      date: formData.date,
+      name: formData.name,
       tk: parseFloat(formData.tk) || 0,
     };
 
     axios
       .post("http://localhost:3000/khori-bills", newData)
       .then((res) => {
-        const inserted = { ...newData, _id: res.data.insertedId };
-        setDataList([...dataList, inserted]);
+        setDataList([...dataList, res.data]);
         Swal.fire("সফল", "খড়ি বিল যুক্ত হয়েছে!", "success");
         setFormData({ date: "", name: "", tk: "" });
       })
-      .catch(() =>
-        Swal.fire("ব্যর্থ", "খড়ি বিল যোগ করা যায়নি", "error")
-      );
+      .catch(() => Swal.fire("ব্যর্থ", "খড়ি বিল যোগ করা যায়নি", "error"));
   };
 
-const handleDelete = async (id) => {
-  const confirm = await Swal.fire({
-    title: "আপনি কি নিশ্চিত?",
-    text: "এই বিল মুছে ফেলবেন?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#dc2626",
-    cancelButtonColor: "#6b7280",
-    confirmButtonText: "হ্যাঁ",
-    cancelButtonText: "না",
-  });
-
-  if (confirm.isConfirmed) {
-    axios
-      .delete(`http://localhost:3000/khori-bills/${id}`)
-      .then(() => {
-       
-        setDataList((prevList) => prevList.filter((item) => item._id !== id));
-        Swal.fire("মুছে ফেলা হয়েছে", "", "success");
-      })
-      .catch((err) => {
-        console.error("Delete error:", err);
-        Swal.fire("ত্রুটি", "বিল মুছে ফেলা যায়নি", "error");
-      });
-  }
-};
-
-
-  if (loading) return <Loading />;
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "আপনি কি নিশ্চিত?",
+      text: "এই বিল মুছে ফেলবেন?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      cancelButtonColor: "#6b7280", 
+      confirmButtonText: "হ্যাঁ",
+      cancelButtonText: "না",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:3000/khori-bills/${id}`)
+          .then(() => {
+            setDataList(dataList.filter((item) => item._id !== id));
+            Swal.fire("মুছে ফেলা হয়েছে", "", "success");
+          })
+          .catch(() => Swal.fire("ত্রুটি", "বিল মুছে ফেলা যায়নি", "error"));
+      }
+    });
+    };
+    
+    if (loading) {
+        
+        return <Loading></Loading>
+    }
 
   return (
     <div className="max-w-4xl mx-auto p-6 dark:bg-gray-900 rounded shadow">
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center mb-4 cursor-pointer text-cyan-500 hover:text-cyan-800 dark:text-cyan-400"
+        className="flex items-center mb-4 cursor-pointer text-cyan-500 hover:text-cyan-700 dark:text-cyan-400"
       >
         <FaArrowLeft className="mr-2" />
         পিছনে যান
@@ -126,42 +121,48 @@ const handleDelete = async (id) => {
       </form>
 
       <div className="overflow-x-auto">
-        <table className="table w-full text-sm border">
+        <table className="table w-full text-sm border border-cyan-300 rounded">
           <thead className="bg-cyan-100 dark:bg-gray-800">
             <tr>
-              <th className="border text-cyan-700 dark:text-cyan-300">তারিখ</th>
-              <th className="border text-cyan-700 dark:text-cyan-300">নাম</th>
-              <th className="border text-cyan-700 dark:text-cyan-300">টাকা</th>
-              <th className="border text-cyan-700 dark:text-cyan-300">অ্যাকশন</th>
+              <th className="border border-cyan-300 text-cyan-700 dark:text-cyan-300 px-4 py-2">তারিখ</th>
+              <th className="border border-cyan-300 text-cyan-700 dark:text-cyan-300 px-4 py-2">নাম</th>
+              <th className="border border-cyan-300 text-cyan-700 dark:text-cyan-300 px-4 py-2 text-right">টাকা</th>
+              <th className="border border-cyan-300 text-cyan-700 dark:text-cyan-300 px-4 py-2 text-center">অ্যাকশন</th>
             </tr>
           </thead>
           <tbody>
-            {dataList.map((item) => (
-              <tr key={item?._id} className="text-center">
-                <td className="border p-2">{item?.date}</td>
-                <td className="border p-2">{item?.name}</td>
-                <td className="border p-2 text-cyan-600 dark:text-cyan-400 font-bold">
-                  ৳ {(item?.tk ?? 0).toFixed(2)}
-                </td>
-                    <td className="border p-2">
-                      
-                  <button
-                    onClick={() => handleDelete(item?._id)}
-                    className="btn btn-sm bg-cyan-500 text-white hover:bg-cyan-700"
-                  >
-                    Delete
-                        </button>
-                        
+            {dataList.length > 0 ? (
+              dataList.map((item) => (
+                <tr key={item._id} className="text-center even:bg-cyan-50 dark:even:bg-gray-700">
+                  <td className="border border-cyan-300 px-4 py-2">{item.date}</td>
+                  <td className="border border-cyan-300 px-4 py-2">{item.name}</td>
+                  <td className="border border-cyan-300 px-4 py-2 text-cyan-600 dark:text-cyan-400 font-bold text-right">
+                    ৳ {Number(item.tk).toFixed(2)}
+                  </td>
+                  <td className="border border-cyan-300 px-4 py-2">
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="btn btn-sm bg-cyan-500 text-white hover:bg-cyan-700"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center p-4 text-cyan-700 dark:text-cyan-300">
+                  কোনো ডেটা নেই
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
-          <tfoot className="bg-cyan-100 dark:bg-gray-800 font-bold">
+          <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
-              <td colSpan="3" className="text-right border p-2 text-cyan-700 dark:text-cyan-300">
+              <td colSpan="3" className="text-right border border-cyan-300 p-2 text-cyan-700 dark:text-cyan-300">
                 মোট
               </td>
-              <td className="border p-2 text-cyan-700 dark:text-cyan-300">
+              <td className="border border-cyan-300 p-2 text-cyan-700 dark:text-cyan-300 text-right">
                 ৳ {totalTk.toFixed(2)}
               </td>
             </tr>

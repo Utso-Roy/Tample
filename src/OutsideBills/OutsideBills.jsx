@@ -151,7 +151,7 @@ const OutsideBills = () => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-yellow-100 dark:bg-gray-800 font-bold">
+          <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
               <td colSpan="3" className="text-right border p-2 text-yellow-700 dark:text-yellow-300">
                 মোট
