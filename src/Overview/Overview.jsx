@@ -1,41 +1,54 @@
 import React, { useEffect, useState } from 'react';
 
 const Overview = () => {
+  const [uttarParatk, setUttarParaTk] = useState([]);
+  const [dokhinParatk, setDokhinParaTk] = useState([]);
+  const [majhaParatk, setMajhaParaTk] = useState([]);
+  const [outCollectiontk, setOutCollectionTk] = useState([]);
 
-  const [uttarParatk, setUttarParaTk] = useState([])
-  const [dokhinParatk, setDokhinParaTk] = useState([])
-  const [majhaParatk, setMajhaParaTk] = useState([])
-
-  
+  // Data fetching
   useEffect(() => {
     fetch('http://localhost:3000/uttarPara/totalTk')
       .then(res => res.json())
-    .then(data =>setUttarParaTk(data))
-    
-  }, [])
-  
+      .then(data => setUttarParaTk(data));
+  }, []);
+
   useEffect(() => {
     fetch('http://localhost:3000/dokkhinParaTotalTk')
       .then(res => res.json())
-    .then(data =>setDokhinParaTk(data))
-    
-  }, [])
-  
+      .then(data => setDokhinParaTk(data));
+  }, []);
+
   useEffect(() => {
     fetch('http://localhost:3000/majhaParaTotalTk')
       .then(res => res.json())
-    .then(data => setMajhaParaTk(data))
-    
-  }, [])
-  
+      .then(data => setMajhaParaTk(data));
+  }, []);
 
-  const totalTkUttarPara = uttarParatk[0]?.totalTk || 0
-  const totalTkDokkhinPara = dokhinParatk[0]?.totalTk || 0
-  const totalTkMajhaPara = majhaParatk[0]?.totalTk || 0
-  
-  console.log(majhaParatk)
+  useEffect(() => {
+    fetch('http://localhost:3000/outCollectionTk')
+      .then(res => res.json())
+      .then(data => setOutCollectionTk(data));
+  }, []);
 
+  // Extracted values
+  const totalTkUttarPara = uttarParatk[0]?.totalTk || 0;
+  const totalTkDokkhinPara = dokhinParatk[0]?.totalTk || 0;
+  const totalTkMajhaPara = majhaParatk[0]?.totalTk || 0;
+  const totalTkOutCollection = outCollectiontk[0]?.totalTk || 0;
 
+  // Para-wise array and total calculation
+  const paraCollection = [
+    { para: 'উত্তর পাড়া', amount: totalTkUttarPara },
+    { para: 'মাঝা পাড়া', amount: totalTkMajhaPara },
+    { para: 'দক্ষিণ পাড়া', amount: totalTkDokkhinPara },
+    { para: 'বাইরের অনুদান', amount: totalTkOutCollection },
+  ];
+
+  const totalCollection = paraCollection.reduce(
+    (sum, item) => sum + item.amount,
+    0
+  );
 
   return (
     <div className="max-w-6xl mx-auto h-full bg-[#f3f4f6] dark:bg-[#1E2939] dark:border dark:border-white px-6 py-12 transition-colors duration-300">
@@ -48,7 +61,7 @@ const Overview = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
           <h4 className="text-xl font-bold text-center mb-2">মোট আয়</h4>
-          <p className="text-3xl font-bold text-center">৳ ১,২০,০০০</p>
+          <p className="text-3xl font-bold text-center">৳ {totalCollection.toFixed(2)}</p>
         </div>
 
         <div className="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
@@ -58,7 +71,7 @@ const Overview = () => {
 
         <div className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
           <h4 className="text-xl font-bold text-center mb-2">বর্তমান ব্যালেন্স</h4>
-          <p className="text-3xl font-bold text-center">৳ ৪৪,৫০০</p>
+          <p className="text-3xl font-bold text-center">৳ {(totalCollection - 75500).toFixed(2)}</p>
         </div>
       </div>
 
@@ -76,18 +89,13 @@ const Overview = () => {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-[#1E2939]">
-            {[
-              { para: 'উত্তর পাড়া', income: `${totalTkUttarPara.toFixed(2)}`, expense: '৳১০,০০০' },
-              { para: 'মাঝা পাড়া', income:` ${totalTkMajhaPara.toFixed(2)}`, expense: '৳১৫,০০০' },
-              { para: 'দক্ষিণ পাড়া', income:  ` ${totalTkDokkhinPara.toFixed(2)}`, expense: '৳২০,০০০' },
-              { para: 'বাইরের অনুদান', income: '৳৪০,০০০', expense: '৳৩০,০০০' },
-            ].map((item, index) => (
+            {paraCollection.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors"
               >
                 <td className="border px-6 py-3">{item.para}</td>
-                <td className="border px-6 font-semibold py-3">{item?.income}</td>
+                <td className="border px-6 font-semibold py-3">৳ {item.amount.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
