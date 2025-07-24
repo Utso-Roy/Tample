@@ -31,6 +31,7 @@ import ProsadBills from "../ProsadBills/ProsadBills";
 import OutsideBills from "../OutsideBills/OutsideBills";
 import DecorationBills from "../DecorationBills/DecorationBills";
 import KhoriBills from "../KhoriBills/KhoriBills";
+import AddEvent from "../AddEvent/AddEvent";
 
 const router = createBrowserRouter([
   {
@@ -156,6 +157,10 @@ const router = createBrowserRouter([
       {
         path: "/expenses/kharhi",
         element : <PrivateRoute><KhoriBills></KhoriBills> </PrivateRoute>
+      },
+      {
+        path: "/addEvent",
+        element : <PrivateRoute><AddEvent></AddEvent> </PrivateRoute>
       },
      
     ]

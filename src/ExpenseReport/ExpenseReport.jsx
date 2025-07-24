@@ -10,8 +10,10 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
+import Loading from '../Loader/Loading';
 
 const ExpenseReport = () => {
+  const [loading, setLoading] = useState(true);
   const [prosadTk, setProsadTk] = useState([]);
   const [khoriTk, setKhoriTk] = useState([]);
   const [othersTk, setOthersTk] = useState([]);
@@ -20,29 +22,35 @@ const ExpenseReport = () => {
   const [currentTk, setCurrentTk] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/totalParosadBills')
-      .then(res => res.json())
-      .then(data => setProsadTk(data));
+    const fetchData = async () => {
+      try {
+        const urls = [
+          fetch('http://localhost:3000/totalParosadBills').then(res => res.json()),
+          fetch('http://localhost:3000/totalKhoriBills').then(res => res.json()),
+          fetch('http://localhost:3000/totalOtherBills').then(res => res.json()),
+          fetch('http://localhost:3000/totalDecorationBills').then(res => res.json()),
+          fetch('http://localhost:3000/totalCurrentsBills').then(res => res.json()),
+          fetch('http://localhost:3000/totalPujaExpense').then(res => res.json())
+        ];
 
-    fetch('http://localhost:3000/totalKhoriBills')
-      .then(res => res.json())
-      .then(data => setKhoriTk(data));
+        const [
+          prosadData, khoriData, othersData, decorationData, currentData, pujaData
+        ] = await Promise.all(urls);
 
-    fetch('http://localhost:3000/totalOtherBills')
-      .then(res => res.json())
-      .then(data => setOthersTk(data));
+        setProsadTk(prosadData);
+        setKhoriTk(khoriData);
+        setOthersTk(othersData);
+        setDecorationTk(decorationData);
+        setCurrentTk(currentData);
+        setPujaTk(pujaData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Data Fetch Error:", err);
+        setLoading(false);
+      }
+    };
 
-    fetch('http://localhost:3000/totalDecorationBills')!
-      .then(res => res.json())
-      .then(data => setDecorationTk(data));
-
-    fetch('http://localhost:3000/totalCurrentsBills')
-      .then(res => res.json())
-      .then(data => setCurrentTk(data));
-
-    fetch('http://localhost:3000/totalPujaExpense')
-      .then(res => res.json())
-      .then(data => setPujaTk(data));
+    fetchData();
   }, []);
 
   const totalProsadTk = prosadTk[0]?.totalTk || 0;
@@ -62,12 +70,8 @@ const ExpenseReport = () => {
   ];
 
   const barColors = [
-    '#DC2626', // red-600
-    '#EA580C', // orange-600
-    '#CA8A04', // yellow-600
-    '#16A34A', // green-600
-    '#2563EB', // blue-600
-    '#7C3AED', // violet-600
+    '#DC2626', '#EA580C', '#CA8A04',
+    '#16A34A', '#2563EB', '#7C3AED',
   ];
 
   return (
@@ -78,24 +82,36 @@ const ExpenseReport = () => {
           ব্যয় রিপোর্ট চার্ট
         </h2>
 
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-            barGap={10}
-          >
-            <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
-            <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#334155" }} tickLine={false} />
-            <YAxis tick={{ fontSize: 12, fill: "#334155" }} tickLine={false} />
-            <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "5px" }} />
-            <Legend />
-            <Bar dataKey="amount" name="ব্যয় (৳)" barSize={50}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        {loading ? (
+          <div><Loading></Loading></div>
+        ) : (
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart
+              data={data}
+              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+              barGap={10}
+            >
+              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                stroke="#94a3b8" // light gray-blue
+              />
+              <YAxis tick={{ fontSize: 12 }} tickLine={false} stroke="#94a3b8" />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#f1f5f9", borderRadius: "8px" }}
+                labelStyle={{ color: "#0f172a", fontWeight: "bold" }}
+              />
+              <Legend />
+              <Bar dataKey="amount" name="ব্যয় (৳)" barSize={50}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );

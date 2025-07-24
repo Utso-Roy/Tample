@@ -80,14 +80,12 @@ const Sidebar = () => {
           </h3>
           <ul className="space-y-1 pl-6">
             <NavLink to="/pujaSchedule" className={navItemClass}>
-              <FaCalendarAlt /> Puja Schedule
+              <FaCalendarAlt /> Team Schedule
             </NavLink>
             <NavLink to="/addEvent" className={navItemClass}>
               <FaPlus /> Add Event
             </NavLink>
-            <NavLink to="/eventReport" className={navItemClass}>
-              <FaList /> Event Report
-            </NavLink>
+            
           </ul>
         </div>
 

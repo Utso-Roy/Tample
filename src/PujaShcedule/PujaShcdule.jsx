@@ -1,52 +1,112 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { MdDelete } from 'react-icons/md';
+import Swal from 'sweetalert2';
+import Loading from '../Loader/Loading';
 
-const pujaSchedules = [
-  {
-    id: 1,
-    name: 'দুর্গাপূজা',
-    date: '2025-10-02',
-    time: 'সকাল ৮:০০ টা',
-    location: 'রামপুর কালীমন্দির',
-  },
-  {
-    id: 2,
-    name: 'কালীপূজা',
-    date: '2025-11-10',
-    time: 'রাত ৯:০০ টা',
-    location: 'রামপুর শ্মশান মন্দির',
-  },
-  {
-    id: 3,
-    name: 'লক্ষ্মীপূজা',
-    date: '2025-10-25',
-    time: 'সন্ধ্যা ৬:৩০ টা',
-    location: 'উত্তরপাড়া মন্দির',
-  },
-];
+const PujaShcdule = () => {
+  const [eventData, setEventData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const PujaSchedule = () => {
+  useEffect(() => {
+    fetch('http://localhost:3000/addEvent')
+      .then((res) => res.json())
+      .then((data) => {
+        setEventData(data);
+        setLoading(false);
+      });
+  }, []);
+  const handleDelete = async (id) => {
+    const confirm = await Swal.fire({
+      title: 'আপনি কি নিশ্চিত?',
+      text: 'এই দল মুছে যাবে!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'হ্যাঁ, ডিলিট করুন',
+      cancelButtonText: 'বাতিল',
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await fetch(`http://localhost:3000/addEvent/${id}`, {
+          method: 'DELETE',
+        });
+        const result = await res.json();
+        if (result.deletedCount > 0) {
+          setEventData((prev) => prev.filter((item) => item._id !== id));
+          Swal.fire({
+            icon: 'success',
+            title: 'ডিলিট সফল!',
+            text: 'দল মুছে ফেলা হয়েছে।',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        Swal.fire('ত্রুটি!', 'ডিলিট করা যায়নি!', 'error');
+      }
+    }
+  };
+
+  if (loading) return <Loading />;
+
   return (
-    <div className="w-full mx-auto px-4 py-10 bg-[#f3f4f6] dark:bg-[#1E2939] h-full dark:border-2 dark:border-white ">
-      <h2 className="text-3xl font-bold text-center mb-8 text-orange-600 dark:text-orange-400 flex justify-center items-center gap-2">
-        <img src="https://i.ibb.co/yqtRBX4/calendar.png" alt="calendar" className="w-8 h-8" />
-        পূজার সময়সূচি
+    <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen">
+      <h2 className="text-3xl font-bold text-center text-orange-600 dark:text-orange-400 mb-10">
+        দলের সময়সূচী
       </h2>
 
-      <div className="grid gap-6">
-        {pujaSchedules.map((puja) => (
-          <div
-            key={puja.id}
-            className="bg-white dark:bg-[#334155] p-6 rounded-xl shadow-md border-l-4 border-orange-500 transition-all"
-          >
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{puja.name}</h3>
-            <p className="text-gray-700 dark:text-gray-300"><span className="font-semibold">📍 স্থান:</span> {puja.location}</p>
-            <p className="text-gray-700 dark:text-gray-300"><span className="font-semibold">📅 তারিখ:</span> {puja.date}</p>
-            <p className="text-gray-700 dark:text-gray-300"><span className="font-semibold">⏰ সময়:</span> {puja.time}</p>
-          </div>
-        ))}
-      </div>
+      {eventData.length === 0 ? (
+        <p className="text-center text-gray-500 dark:text-gray-300">
+          কোনো দল পাওয়া যায়নি।
+        </p>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {eventData.map((event) => (
+            <div
+              key={event._id}
+              className="bg-white dark:bg-[#2e3a4a] border-1 p-2 border-orange-400 dark:border-gray-600 rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row"
+            >
+              {event.image && (
+                <img
+                  src={event?.image}
+                  alt={event?.title}
+                  className="h-48 w-full md:w-1/3 object-cover"
+                />
+              )}
+              <div className="p-4 flex-1 relative">
+                <h3 className="text-xl font-semibold text-orange-600 dark:text-orange-300">
+                  {event?.title} <span>{event?.description}</span>
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>তারিখ :</strong> {event?.date}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>শুরুর সময় :</strong> {event?.startTime}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>শেষ সময় :</strong> {event?.endTime}
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>লোকেশন :</strong> {event?.location}
+                </p>
+
+                <button
+                  onClick={() => handleDelete(event?._id)}
+                  className="absolute cursor-pointer top-2 right-2 text-red-600 hover:text-red-800 transition duration-300"
+                  title="দল মুছুন"
+                >
+                  <MdDelete size={22} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default PujaSchedule;
+export default PujaShcdule;

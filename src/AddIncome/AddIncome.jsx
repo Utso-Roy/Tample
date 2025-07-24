@@ -134,8 +134,8 @@ const AddIncome = () => {
   console.table(incomeList)
 
   const groupedIncomeByDate = incomeList.reduce((acc, curr) => {
-    if (!acc[curr.date]) acc[curr.date] = 0;
-    acc[curr.date] += curr.amount;
+    if (!acc[curr?.date]) acc[curr?.date] = 0;
+    acc[curr?.date] += curr?.amount;
     return acc;
   }, {});
 
