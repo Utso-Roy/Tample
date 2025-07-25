@@ -36,7 +36,10 @@ const UploadFile = () => {
           image: imageUrl,
         };
 
-        await axios.post("http://localhost:3000/upLoadFile", payload);
+        await axios.post(
+          "https://tample-server.vercel.app/upLoadFile",
+          payload
+        );
         fetchData();
 
         Swal.fire({
@@ -66,7 +69,7 @@ const UploadFile = () => {
 
   const fetchData = () => {
     setLoading(true);
-    fetch("http://localhost:3000/upLoadFile")
+    fetch("https://tample-server.vercel.app/upLoadFile")
       .then((res) => res.json())
       .then((data) => {
         setData(data.data);
@@ -83,7 +86,9 @@ const UploadFile = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:3000/upLoadFile/${id}`);
+      const res = await axios.delete(
+        `https://tample-server.vercel.app/upLoadFile/${id}`
+      );
       if (res.data.success) {
         setData((prev) => prev.filter((item) => item._id !== id));
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
@@ -101,49 +106,48 @@ const UploadFile = () => {
   return (
     <div className="h-[calc(200vh-200px)] overflow-y-auto scroll-smooth">
       {/* Form */}
-    <form
-  onSubmit={handleSubmit}
-  className="w-full max-w-md p-6 mx-auto border-2 my-5 dark:bg-gray-900 border-gray-300 dark:border-gray-700 space-y-6"
->
-  <h2 className="text-3xl justify-center font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2">
-    <FaUpload className="text-orange-600" />
-    Upload Form
-  </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md p-6 mx-auto border-2 my-5 dark:bg-gray-900 border-gray-300 dark:border-gray-700 space-y-6"
+      >
+        <h2 className="text-3xl justify-center font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2">
+          <FaUpload className="text-orange-600" />
+          Upload Form
+        </h2>
 
-  <input
-    id="text"
-    type="text"
-    name="text"
-    placeholder="Enter something..."
-    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-    required
-  />
+        <input
+          id="text"
+          type="text"
+          name="text"
+          placeholder="Enter something..."
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          required
+        />
 
-  <input
-    id="date"
-    name="date"
-    type="date"
-    className="w-full px-4 py-2 border cursor-pointer border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-    required
-  />
+        <input
+          id="date"
+          name="date"
+          type="date"
+          className="w-full px-4 py-2 border cursor-pointer border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          required
+        />
 
-  <input
-    id="file"
-    name="file"
-    type="file"
-    accept="image/*"
-    className="w-full px-4 py-2 border cursor-pointer border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-    required
-  />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          accept="image/*"
+          className="w-full px-4 py-2 border cursor-pointer border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          required
+        />
 
-  <button
-    type="submit"
-    className="w-full py-3 cursor-pointer bg-orange-600 text-white rounded-md font-semibold hover:bg-orange-700 transition dark:bg-orange-700 dark:hover:bg-orange-800"
-  >
-    Submit
-  </button>
-</form>
-
+        <button
+          type="submit"
+          className="w-full py-3 cursor-pointer bg-orange-600 text-white rounded-md font-semibold hover:bg-orange-700 transition dark:bg-orange-700 dark:hover:bg-orange-800"
+        >
+          Submit
+        </button>
+      </form>
 
       {/* Data Cards */}
       <div className="w-full my-10 grid md:grid-cols-3 gap-2 overflow-hidden">
@@ -207,7 +211,8 @@ const UploadFile = () => {
                 onClick={() => setSelectedImage(null)}
                 className="btn bg-red-500 hover:bg-red-600 text-white"
               >
-Cancel              </label>
+                Cancel{" "}
+              </label>
             </div>
           </div>
         </div>

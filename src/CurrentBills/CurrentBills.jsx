@@ -9,21 +9,22 @@ const CurrentBills = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
-    const [loading,setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/current-bills")
+      .get("https://tample-server.vercel.app/current-bills")
       .then((res) => {
-        
-        setDataList(res.data)
-        setLoading(false)
+        setDataList(res.data);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  const totalTk = (dataList || []).reduce((total, item) => total + (item.tk || 0), 0);
+  const totalTk = (dataList || []).reduce(
+    (total, item) => total + (item.tk || 0),
+    0
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,9 +34,9 @@ const CurrentBills = () => {
     };
 
     axios
-      .post("http://localhost:3000/current-bills", newData)
+      .post("https://tample-server.vercel.app/current-bills", newData)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         const inserted = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, inserted]);
         Swal.fire("সফল", "বিল যুক্ত হয়েছে!", "success");
@@ -46,32 +47,29 @@ const CurrentBills = () => {
 
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
-      title: 'আপনি কি নিশ্চিত?',
+      title: "আপনি কি নিশ্চিত?",
       text: "এই বিল মুছে ফেলবেন?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#dc2626',
-      cancelButtonColor: '#6b7280',
-      confirmButtonText: 'হ্যাঁ',
-      cancelButtonText: 'না',
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "হ্যাঁ",
+      cancelButtonText: "না",
     });
 
     if (confirm.isConfirmed) {
       axios
-        .delete(`http://localhost:3000/current-bills/${id}`)
+        .delete(`https://tample-server.vercel.app/current-bills/${id}`)
         .then(() => {
-          setDataList(dataList.filter(item => item._id !== id));
-          Swal.fire('মুছে ফেলা হয়েছে', '', 'success');
+          setDataList(dataList.filter((item) => item._id !== id));
+          Swal.fire("মুছে ফেলা হয়েছে", "", "success");
         })
-        .catch(() => Swal.fire('ত্রুটি', 'বিল মুছে ফেলা যায়নি', 'error'));
+        .catch(() => Swal.fire("ত্রুটি", "বিল মুছে ফেলা যায়নি", "error"));
     }
   };
 
-
-
   if (loading) {
-    
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -90,7 +88,10 @@ const CurrentBills = () => {
       </h1>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
         <input
           type="date"
           required
@@ -130,7 +131,9 @@ const CurrentBills = () => {
               <th className="border text-blue-700 dark:text-blue-300">তারিখ</th>
               <th className="border text-blue-700 dark:text-blue-300">নাম</th>
               <th className="border text-blue-700 dark:text-blue-300">টাকা</th>
-              <th className="border text-blue-700 dark:text-blue-300">অ্যাকশন</th>
+              <th className="border text-blue-700 dark:text-blue-300">
+                অ্যাকশন
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -154,7 +157,10 @@ const CurrentBills = () => {
           </tbody>
           <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
-              <td colSpan="3" className="text-right border p-2 text-blue-700 dark:text-blue-300">
+              <td
+                colSpan="3"
+                className="text-right border p-2 text-blue-700 dark:text-blue-300"
+              >
                 মোট
               </td>
               <td className="border p-2 text-blue-700 dark:text-blue-300">

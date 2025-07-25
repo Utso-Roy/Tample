@@ -10,18 +10,16 @@ const OutCollection = () => {
   const [name, setName] = useState("");
   const [tk, setTk] = useState("");
   const [dataList, setDataList] = useState([]);
-  const API_URL = "http://localhost:3000/out-collections";
-    const [loading,setLoading] = useState(true)
-
+  const API_URL = "https://tample-server.vercel.app/out-collections";
+  const [loading, setLoading] = useState(true);
 
   // Fetch all donations on component mount
   useEffect(() => {
     axios
       .get(API_URL)
       .then((res) => {
-
-        setDataList(res.data)
-        setLoading(false)
+        setDataList(res.data);
+        setLoading(false);
       })
       .catch(() => Swal.fire("Error", "error"));
   }, []);
@@ -88,10 +86,9 @@ const OutCollection = () => {
     0
   );
 
-   if (loading) {
-    return <Loading></Loading>
+  if (loading) {
+    return <Loading></Loading>;
   }
-
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">

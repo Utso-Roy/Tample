@@ -13,7 +13,7 @@ const OutsideBills = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/other-bills")
+      .get("https://tample-server.vercel.app/other-bills")
       .then((res) => {
         setDataList(res.data);
         setLoading(false);
@@ -34,16 +34,14 @@ const OutsideBills = () => {
     };
 
     axios
-      .post("http://localhost:3000/other-bills", newData)
+      .post("https://tample-server.vercel.app/other-bills", newData)
       .then((res) => {
         const inserted = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, inserted]);
         Swal.fire("সফল", "অন্য বিল যুক্ত হয়েছে!", "success");
         setFormData({ date: "", name: "", tk: "" });
       })
-      .catch(() =>
-        Swal.fire("ব্যর্থ", "অন্য বিল যোগ করা যায়নি", "error")
-      );
+      .catch(() => Swal.fire("ব্যর্থ", "অন্য বিল যোগ করা যায়নি", "error"));
   };
 
   const handleDelete = async (id) => {
@@ -60,14 +58,12 @@ const OutsideBills = () => {
 
     if (confirm.isConfirmed) {
       axios
-        .delete(`http://localhost:3000/other-bills/${id}`)
+        .delete(`https://tample-server.vercel.app/other-bills/${id}`)
         .then(() => {
           setDataList(dataList.filter((item) => item._id !== id));
           Swal.fire("মুছে ফেলা হয়েছে", "", "success");
         })
-        .catch(() =>
-          Swal.fire("ত্রুটি", "বিল মুছে ফেলা যায়নি", "error")
-        );
+        .catch(() => Swal.fire("ত্রুটি", "বিল মুছে ফেলা যায়নি", "error"));
     }
   };
 
@@ -126,10 +122,18 @@ const OutsideBills = () => {
         <table className="table w-full text-sm border">
           <thead className="bg-yellow-100 dark:bg-gray-800">
             <tr>
-              <th className="border text-yellow-700 dark:text-yellow-300">তারিখ</th>
-              <th className="border text-yellow-700 dark:text-yellow-300">নাম</th>
-              <th className="border text-yellow-700 dark:text-yellow-300">টাকা</th>
-              <th className="border text-yellow-700 dark:text-yellow-300">অ্যাকশন</th>
+              <th className="border text-yellow-700 dark:text-yellow-300">
+                তারিখ
+              </th>
+              <th className="border text-yellow-700 dark:text-yellow-300">
+                নাম
+              </th>
+              <th className="border text-yellow-700 dark:text-yellow-300">
+                টাকা
+              </th>
+              <th className="border text-yellow-700 dark:text-yellow-300">
+                অ্যাকশন
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -153,7 +157,10 @@ const OutsideBills = () => {
           </tbody>
           <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
-              <td colSpan="3" className="text-right border p-2 text-yellow-700 dark:text-yellow-300">
+              <td
+                colSpan="3"
+                className="text-right border p-2 text-yellow-700 dark:text-yellow-300"
+              >
                 মোট
               </td>
               <td className="border p-2 text-yellow-700 dark:text-yellow-300">

@@ -59,14 +59,7 @@ const Navbar = () => {
           Temple History
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/contacts"
-          className={({ isActive }) => isActive ? "bg-orange-700" : ""}
-        >
-          Contact
-        </NavLink>
-      </li>
+      
     </>
   );
 

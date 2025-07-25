@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
 import Loading from "../Loader/Loading";
 
 const MajaPara = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   // Fetch data from server
   useEffect(() => {
     axios
-      .get("http://localhost:3000/donations")
+      .get("https://tample-server.vercel.app/donations")
       .then((res) => {
         setDataList(res.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -25,7 +25,10 @@ const MajaPara = () => {
   }, []);
 
   // Calculate total safely
-  const totalTk = (dataList || []).reduce((total, item) => total + (item.tk || 0), 0);
+  const totalTk = (dataList || []).reduce(
+    (total, item) => total + (item.tk || 0),
+    0
+  );
 
   // Form submit handler
   const handleSubmit = (e) => {
@@ -36,7 +39,7 @@ const MajaPara = () => {
     };
 
     axios
-      .post("http://localhost:3000/donations", newData)
+      .post("https://tample-server.vercel.app/donations", newData)
       .then((res) => {
         const insertedDonation = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, insertedDonation]);
@@ -53,36 +56,34 @@ const MajaPara = () => {
   const handleDelete = async (id) => {
     try {
       const confirm = await Swal.fire({
-        title: 'আপনি কি নিশ্চিত?',
+        title: "আপনি কি নিশ্চিত?",
         text: "এই অনুদানটি মুছে ফেলতে চান?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#ca8a04',
-        cancelButtonColor: '#6b7280',
-        confirmButtonText: 'হ্যাঁ, মুছে ফেলুন',
-        cancelButtonText: 'না',
+        confirmButtonColor: "#ca8a04",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "হ্যাঁ, মুছে ফেলুন",
+        cancelButtonText: "না",
       });
 
       if (confirm.isConfirmed) {
-        await axios.delete(`http://localhost:3000/donations/${id}`);
-        setDataList(dataList.filter(item => item._id !== id));
-        Swal.fire('মুছে ফেলা হয়েছে!', 'অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।', 'success');
+        await axios.delete(`https://tample-server.vercel.app/donations/${id}`);
+        setDataList(dataList.filter((item) => item._id !== id));
+        Swal.fire(
+          "মুছে ফেলা হয়েছে!",
+          "অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।",
+          "success"
+        );
       }
     } catch (error) {
       console.error(error);
-      Swal.fire('ত্রুটি', 'অনুদান মুছে ফেলতে ব্যর্থ হয়েছে।', 'error');
+      Swal.fire("ত্রুটি", "অনুদান মুছে ফেলতে ব্যর্থ হয়েছে।", "error");
     }
   };
 
   if (loading) {
-   return <Loading></Loading>
- }
-
-
-
-
-
-
+    return <Loading></Loading>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -95,9 +96,14 @@ const MajaPara = () => {
         পিছনে যান
       </button>
 
-      <h1 className="text-2xl text-center text-yellow-500 font-bold mb-4">মাঝাপাড়া দান তালিকা</h1>
+      <h1 className="text-2xl text-center text-yellow-500 font-bold mb-4">
+        মাঝাপাড়া দান তালিকা
+      </h1>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
         <input
           type="date"
           required
@@ -121,7 +127,10 @@ const MajaPara = () => {
           onChange={(e) => setFormData({ ...formData, tk: e.target.value })}
           className="border input p-2 rounded"
         />
-        <button type="submit" className="col-span-full cursor-pointer bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600">
+        <button
+          type="submit"
+          className="col-span-full cursor-pointer bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
+        >
           Add Donation
         </button>
       </form>
@@ -140,7 +149,9 @@ const MajaPara = () => {
             <tr key={item._id || index} className="text-center">
               <td className="border p-2">{item.date}</td>
               <td className="border p-2">{item.name}</td>
-              <td className="border p-2 text-yellow-600 font-bold">৳ {(item.tk ?? 0).toFixed(2)}</td>
+              <td className="border p-2 text-yellow-600 font-bold">
+                ৳ {(item.tk ?? 0).toFixed(2)}
+              </td>
               <td className="border p-2">
                 <button
                   onClick={() => handleDelete(item._id)}
@@ -157,7 +168,9 @@ const MajaPara = () => {
             <td colSpan="3" className="border text-yellow-600 p-2 text-right">
               মোট
             </td>
-            <td className="border p-2 text-yellow-600">৳ {totalTk.toFixed(2)}</td>
+            <td className="border p-2 text-yellow-600">
+              ৳ {totalTk.toFixed(2)}
+            </td>
           </tr>
         </tfoot>
       </table>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,8 +8,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell
-} from 'recharts';
+  Cell,
+} from "recharts";
 
 const IncomeReportChart = () => {
   const [uttarParatk, setUttarParaTk] = useState([]);
@@ -19,27 +19,27 @@ const IncomeReportChart = () => {
 
   // Data fetching
   useEffect(() => {
-    fetch('http://localhost:3000/uttarPara/totalTk')
-      .then(res => res.json())
-      .then(data => setUttarParaTk(data));
+    fetch("https://tample-server.vercel.app/uttarPara/totalTk")
+      .then((res) => res.json())
+      .then((data) => setUttarParaTk(data));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/dokkhinParaTotalTk')
-      .then(res => res.json())
-      .then(data => setDokhinParaTk(data));
+    fetch("https://tample-server.vercel.app/dokkhinParaTotalTk")
+      .then((res) => res.json())
+      .then((data) => setDokhinParaTk(data));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/majhaParaTotalTk')
-      .then(res => res.json())
-      .then(data => setMajhaParaTk(data));
+    fetch("https://tample-server.vercel.app/majhaParaTotalTk")
+      .then((res) => res.json())
+      .then((data) => setMajhaParaTk(data));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3000/outCollectionTk')
-      .then(res => res.json())
-      .then(data => setOutCollectionTk(data));
+    fetch("https://tample-server.vercel.app/outCollectionTk")
+      .then((res) => res.json())
+      .then((data) => setOutCollectionTk(data));
   }, []);
 
   // Extracted values
@@ -49,17 +49,17 @@ const IncomeReportChart = () => {
   const totalTkOutCollection = outCollectiontk[0]?.totalTk || 0;
 
   const data = [
-    { name: 'উত্তর পাড়া', amount: totalTkUttarPara },
-    { name: 'মাঝ পাড়া', amount: totalTkMajhaPara },
-    { name: 'দক্ষিণ পাড়া', amount: totalTkDokkhinPara },
-    { name: 'বাইরের কালেকশন', amount: totalTkOutCollection },
+    { name: "উত্তর পাড়া", amount: totalTkUttarPara },
+    { name: "মাঝ পাড়া", amount: totalTkMajhaPara },
+    { name: "দক্ষিণ পাড়া", amount: totalTkDokkhinPara },
+    { name: "বাইরের কালেকশন", amount: totalTkOutCollection },
   ];
 
   const barColors = [
-    '#F97316', // orange-500
-    '#8B5CF6', // violet-500
-    '#22C55E', // green-500
-    '#3B82F6', // blue-500
+    "#F97316", // orange-500
+    "#8B5CF6", // violet-500
+    "#22C55E", // green-500
+    "#3B82F6", // blue-500
   ];
 
   return (
@@ -84,22 +84,25 @@ const IncomeReportChart = () => {
           <XAxis
             dataKey="name"
             stroke="#64748b"
-            tick={{ fill: '#64748b', fontSize: 13 }}
+            tick={{ fill: "#64748b", fontSize: 13 }}
           />
-          <YAxis tick={{ fill: '#64748b', fontSize: 13 }} />
+          <YAxis tick={{ fill: "#64748b", fontSize: 13 }} />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#f9fafb',
-              borderRadius: '8px',
-              border: '1px solid #e2e8f0'
+              backgroundColor: "#f9fafb",
+              borderRadius: "8px",
+              border: "1px solid #e2e8f0",
             }}
-            labelStyle={{ color: '#1e293b' }}
+            labelStyle={{ color: "#1e293b" }}
           />
-          <Legend wrapperStyle={{ color: '#334155' }} />
+          <Legend wrapperStyle={{ color: "#334155" }} />
 
           <Bar dataKey="amount" name="টাকা (৳)" barSize={60}>
             {data.map((entry, index) => (
-              <Cell key={`amount-${index}`} fill={barColors[index % barColors.length]} />
+              <Cell
+                key={`amount-${index}`}
+                fill={barColors[index % barColors.length]}
+              />
             ))}
           </Bar>
         </BarChart>

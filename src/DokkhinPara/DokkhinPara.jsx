@@ -9,14 +9,14 @@ const DokkhinPara = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   // Fetch data from server
   useEffect(() => {
     axios
-      .get("http://localhost:3000/dokkhin-donations")
+      .get("https://tample-server.vercel.app/dokkhin-donations")
       .then((res) => {
         setDataList(res.data);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -24,7 +24,10 @@ const DokkhinPara = () => {
   }, []);
 
   // Total donation calculation
-  const totalTk = (dataList || []).reduce((total, item) => total + (item.tk || 0), 0);
+  const totalTk = (dataList || []).reduce(
+    (total, item) => total + (item.tk || 0),
+    0
+  );
 
   // Form Submit
   const handleSubmit = (e) => {
@@ -35,7 +38,7 @@ const DokkhinPara = () => {
     };
 
     axios
-      .post("http://localhost:3000/dokkhin-donations", newData)
+      .post("https://tample-server.vercel.app/dokkhin-donations", newData)
       .then((res) => {
         const insertedDonation = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, insertedDonation]);
@@ -63,9 +66,15 @@ const DokkhinPara = () => {
       });
 
       if (confirm.isConfirmed) {
-        await axios.delete(`http://localhost:3000/dokkhin-donations/${id}`);
+        await axios.delete(
+          `https://tample-server.vercel.app/dokkhin-donations/${id}`
+        );
         setDataList(dataList.filter((item) => item._id !== id));
-        Swal.fire("মুছে ফেলা হয়েছে!", "অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।", "success");
+        Swal.fire(
+          "মুছে ফেলা হয়েছে!",
+          "অনুদানটি সফলভাবে মুছে ফেলা হয়েছে।",
+          "success"
+        );
       }
     } catch (error) {
       console.error(error);
@@ -73,10 +82,8 @@ const DokkhinPara = () => {
     }
   };
 
-
-
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -91,9 +98,14 @@ const DokkhinPara = () => {
         </button>
       </div>
 
-      <h1 className="text-2xl text-center text-[#9d174d] font-bold mb-4">দক্ষিণপাড়া দান তালিকা</h1>
+      <h1 className="text-2xl text-center text-[#9d174d] font-bold mb-4">
+        দক্ষিণপাড়া দান তালিকা
+      </h1>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
         <input
           type="date"
           required
@@ -139,7 +151,9 @@ const DokkhinPara = () => {
             <tr key={item._id || index} className="text-center">
               <td className="border p-2">{item.date}</td>
               <td className="border p-2">{item.name}</td>
-              <td className="border p-2 text-[#9d174d] font-bold">৳ {(item.tk ?? 0).toFixed(2)}</td>
+              <td className="border p-2 text-[#9d174d] font-bold">
+                ৳ {(item.tk ?? 0).toFixed(2)}
+              </td>
               <td className="border p-2">
                 <button
                   onClick={() => handleDelete(item._id)}
@@ -156,7 +170,9 @@ const DokkhinPara = () => {
             <td colSpan="3" className="border text-[#9d174d] p-2 text-right">
               মোট
             </td>
-            <td className="border p-2 text-[#9d174d]">৳ {totalTk.toFixed(2)}</td>
+            <td className="border p-2 text-[#9d174d]">
+              ৳ {totalTk.toFixed(2)}
+            </td>
           </tr>
         </tfoot>
       </table>

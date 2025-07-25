@@ -13,7 +13,7 @@ const ProsadBills = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/prosad-bills")
+      .get("https://tample-server.vercel.app/prosad-bills")
       .then((res) => {
         setDataList(res.data);
         setLoading(false);
@@ -34,16 +34,14 @@ const ProsadBills = () => {
     };
 
     axios
-      .post("http://localhost:3000/prosad-bills", newData)
+      .post("https://tample-server.vercel.app/prosad-bills", newData)
       .then((res) => {
         const inserted = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, inserted]);
         Swal.fire("সফল", "প্রসাদ বিল যুক্ত হয়েছে!", "success");
         setFormData({ date: "", name: "", tk: "" });
       })
-      .catch(() =>
-        Swal.fire("ব্যর্থ", "প্রসাদ বিল যোগ করা যায়নি", "error")
-      );
+      .catch(() => Swal.fire("ব্যর্থ", "প্রসাদ বিল যোগ করা যায়নি", "error"));
   };
 
   const handleDelete = async (id) => {
@@ -60,7 +58,7 @@ const ProsadBills = () => {
 
     if (confirm.isConfirmed) {
       axios
-        .delete(`http://localhost:3000/prosad-bills/${id}`)
+        .delete(`https://tample-server.vercel.app/prosad-bills/${id}`)
         .then(() => {
           setDataList(dataList.filter((item) => item._id !== id));
           Swal.fire("মুছে ফেলা হয়েছে", "", "success");
@@ -128,10 +126,18 @@ const ProsadBills = () => {
         <table className="table w-full text-sm border">
           <thead className="bg-purple-100 dark:bg-gray-800">
             <tr>
-              <th className="border text-purple-700 dark:text-purple-300">তারিখ</th>
-              <th className="border text-purple-700 dark:text-purple-300">নাম</th>
-              <th className="border text-purple-700 dark:text-purple-300">টাকা</th>
-              <th className="border text-purple-700 dark:text-purple-300">অ্যাকশন</th>
+              <th className="border text-purple-700 dark:text-purple-300">
+                তারিখ
+              </th>
+              <th className="border text-purple-700 dark:text-purple-300">
+                নাম
+              </th>
+              <th className="border text-purple-700 dark:text-purple-300">
+                টাকা
+              </th>
+              <th className="border text-purple-700 dark:text-purple-300">
+                অ্যাকশন
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -155,7 +161,10 @@ const ProsadBills = () => {
           </tbody>
           <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
-              <td colSpan="3" className="text-right border p-2 text-purple-700 dark:text-purple-300">
+              <td
+                colSpan="3"
+                className="text-right border p-2 text-purple-700 dark:text-purple-300"
+              >
                 মোট
               </td>
               <td className="border p-2 text-purple-700 dark:text-purple-300">

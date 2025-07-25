@@ -8,18 +8,18 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import Loading from "../Loader/Loading";
 const UttarPara = () => {
   const [name, setName] = useState("");
-    const [tk, setTk] = useState("");
-    const [dataList,setDataList] = useState([])
+  const [tk, setTk] = useState("");
+  const [dataList, setDataList] = useState([]);
   const { uttarParaTk, setUttarParaTk } = use(AuthContext);
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/uttarPara")
+      .get("https://tample-server.vercel.app/uttarPara")
       .then((res) => {
         if (res.data.success) {
           setDataList(res.data.data);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch((err) => {
@@ -40,7 +40,7 @@ const UttarPara = () => {
 
       try {
         const res = await axios.post(
-          "http://localhost:3000/uttarPara",
+          "https://tample-server.vercel.app/uttarPara",
           newData
         );
 
@@ -71,9 +71,7 @@ const UttarPara = () => {
         });
       }
     }
-    };
-    
-
+  };
 
   // Delete
   const handleDelete = async (id) => {
@@ -90,7 +88,7 @@ const UttarPara = () => {
       if (result.isConfirmed) {
         try {
           const res = await axios.delete(
-            `http://localhost:3000/uttarPara/${id}`
+            `https://tample-server.vercel.app/uttarPara/${id}`
           );
 
           if (res.data.success) {
@@ -115,20 +113,12 @@ const UttarPara = () => {
     });
   };
 
-
-
   if (loading) {
-  
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
-
-         const totalTk = dataList.reduce((total, item) => total + item.tk, 0);
-             setUttarParaTk(totalTk)
-    
-   
-    
-    
+  const totalTk = dataList.reduce((total, item) => total + item.tk, 0);
+  setUttarParaTk(totalTk);
 
   return (
     <div className="max-w-4xl h-[calc(200vh-200px)] overflow-y-auto scroll-smooth mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">

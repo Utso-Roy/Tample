@@ -18,7 +18,9 @@ const AddIncome = () => {
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/addIncomeData");
+        const res = await axios.get(
+          "https://tample-server.vercel.app/addIncomeData"
+        );
         if (res.data.suc) {
           setIncomeList(res.data.data);
           setLoading(false);
@@ -52,7 +54,7 @@ const AddIncome = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/addIncomeData",
+        "https://tample-server.vercel.app/addIncomeData",
         newEntry
       );
       if (res.data.suc) {
@@ -100,7 +102,7 @@ const AddIncome = () => {
     if (confirm.isConfirmed) {
       try {
         const res = await axios.delete(
-          `http://localhost:3000/addIncomeData/${id}`
+          `https://tample-server.vercel.app/addIncomeData/${id}`
         );
         if (res.data.success) {
           setIncomeList((prev) => prev.filter((item) => item._id !== id));
@@ -131,7 +133,7 @@ const AddIncome = () => {
   };
 
   const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString();
-  console.table(incomeList)
+  console.table(incomeList);
 
   const groupedIncomeByDate = incomeList.reduce((acc, curr) => {
     if (!acc[curr?.date]) acc[curr?.date] = 0;

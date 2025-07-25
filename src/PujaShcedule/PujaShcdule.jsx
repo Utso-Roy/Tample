@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { MdDelete } from 'react-icons/md';
-import Swal from 'sweetalert2';
-import Loading from '../Loader/Loading';
+import React, { useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
+import Loading from "../Loader/Loading";
 
 const PujaShcdule = () => {
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/addEvent')
+    fetch("https://tample-server.vercel.app/addEvent")
       .then((res) => res.json())
       .then((data) => {
         setEventData(data);
@@ -17,35 +17,38 @@ const PujaShcdule = () => {
   }, []);
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
-      title: 'আপনি কি নিশ্চিত?',
-      text: 'এই দল মুছে যাবে!',
-      icon: 'warning',
+      title: "আপনি কি নিশ্চিত?",
+      text: "এই দল মুছে যাবে!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'হ্যাঁ, ডিলিট করুন',
-      cancelButtonText: 'বাতিল',
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "হ্যাঁ, ডিলিট করুন",
+      cancelButtonText: "বাতিল",
     });
 
     if (confirm.isConfirmed) {
       try {
-        const res = await fetch(`http://localhost:3000/addEvent/${id}`, {
-          method: 'DELETE',
-        });
+        const res = await fetch(
+          `https://tample-server.vercel.app/addEvent/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         const result = await res.json();
         if (result.deletedCount > 0) {
           setEventData((prev) => prev.filter((item) => item._id !== id));
           Swal.fire({
-            icon: 'success',
-            title: 'ডিলিট সফল!',
-            text: 'দল মুছে ফেলা হয়েছে।',
+            icon: "success",
+            title: "ডিলিট সফল!",
+            text: "দল মুছে ফেলা হয়েছে।",
             timer: 2000,
             showConfirmButton: false,
           });
         }
       } catch (err) {
         console.error(err);
-        Swal.fire('ত্রুটি!', 'ডিলিট করা যায়নি!', 'error');
+        Swal.fire("ত্রুটি!", "ডিলিট করা যায়নি!", "error");
       }
     }
   };

@@ -3,24 +3,22 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FaClipboardList, FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoIosAddCircle, IoMdAddCircleOutline } from "react-icons/io";
-import { MdArrowBack } from "react-icons/md"; 
+import { MdArrowBack } from "react-icons/md";
 import Loading from "../Loader/Loading";
 const AddExpense = () => {
   const [expenseValue, setExpenseValue] = useState([]);
-    const [loading,setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
 
   const fetchExpenses = async () => {
-    const res = await axios.get("http://localhost:3000/expenses");
+    const res = await axios.get("https://tample-server.vercel.app/expenses");
     {
-      setExpenseValue(res.data)
-      setLoading(false)
-    };
+      setExpenseValue(res.data);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchExpenses();
-    
   }, []);
 
   const handleSubmit = async (e) => {
@@ -35,7 +33,10 @@ const AddExpense = () => {
       date: new Date().toLocaleDateString("bn-BD"),
     };
 
-    const res = await axios.post("http://localhost:3000/expenses", newExpense);
+    const res = await axios.post(
+      "https://tample-server.vercel.app/expenses",
+      newExpense
+    );
     if (res.data.insertedId || res.data.acknowledged) {
       fetchExpenses();
       form.reset();
@@ -62,26 +63,28 @@ const AddExpense = () => {
     });
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:3000/expenses/${id}`);
+      await axios.delete(`https://tample-server.vercel.app/expenses/${id}`);
       fetchExpenses();
 
-      Swal.fire("ডিলিট হয়েছে!", "তোমার খরচ সফলভাবে ডিলিট করা হয়েছে।", "success");
+      Swal.fire(
+        "ডিলিট হয়েছে!",
+        "তোমার খরচ সফলভাবে ডিলিট করা হয়েছে।",
+        "success"
+      );
     }
   };
 
-  const total = expenseValue.reduce((sum, item) => sum + parseFloat(item.number), 0);
+  const total = expenseValue.reduce(
+    (sum, item) => sum + parseFloat(item.number),
+    0
+  );
 
-   if (loading) {
-    return <Loading></Loading>
+  if (loading) {
+    return <Loading></Loading>;
   }
-
-
-
-
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 dark:bg-[#1E2939] dark:border dark:border-white rounded-xl shadow">
-      
       {/* 🔙 Back Button */}
       <div className="mb-4">
         <button
@@ -165,7 +168,10 @@ const AddExpense = () => {
               ))}
               {expenseValue.length === 0 && (
                 <tr>
-                  <td colSpan="4" className="text-center py-4 font-semibold text-gray-500 dark:text-gray-400">
+                  <td
+                    colSpan="4"
+                    className="text-center py-4 font-semibold text-gray-500 dark:text-gray-400"
+                  >
                     এখনো কোনো খরচ যোগ করা হয়নি।
                   </td>
                 </tr>

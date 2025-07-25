@@ -9,20 +9,22 @@ const PujarKhoroz = () => {
   const [formData, setFormData] = useState({ date: "", name: "", tk: "" });
   const [dataList, setDataList] = useState([]);
   const navigate = useNavigate();
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/puja-expenses")
+      .get("https://tample-server.vercel.app/puja-expenses")
       .then((res) => {
-        
-        setDataList(res.data)
-        setLoading(false)
+        setDataList(res.data);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  const totalTk = (dataList || []).reduce((total, item) => total + (item.tk || 0), 0);
+  const totalTk = (dataList || []).reduce(
+    (total, item) => total + (item.tk || 0),
+    0
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const PujarKhoroz = () => {
     };
 
     axios
-      .post("http://localhost:3000/puja-expenses", newData)
+      .post("https://tample-server.vercel.app/puja-expenses", newData)
       .then((res) => {
         const inserted = { ...newData, _id: res.data.insertedId };
         setDataList([...dataList, inserted]);
@@ -44,35 +46,30 @@ const PujarKhoroz = () => {
 
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
-      title: 'আপনি কি নিশ্চিত?',
+      title: "আপনি কি নিশ্চিত?",
       text: "এই খরচ মুছে ফেলবেন?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#dc2626',
-      cancelButtonColor: '#6b7280',
-      confirmButtonText: 'হ্যাঁ',
-      cancelButtonText: 'না',
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "হ্যাঁ",
+      cancelButtonText: "না",
     });
 
     if (confirm.isConfirmed) {
       axios
-        .delete(`http://localhost:3000/puja-expenses/${id}`)
+        .delete(`https://tample-server.vercel.app/puja-expenses/${id}`)
         .then(() => {
-          setDataList(dataList.filter(item => item._id !== id));
-          Swal.fire('মুছে ফেলা হয়েছে', '', 'success');
+          setDataList(dataList.filter((item) => item._id !== id));
+          Swal.fire("মুছে ফেলা হয়েছে", "", "success");
         })
-        .catch(() => Swal.fire('ত্রুটি', 'খরচ মুছে ফেলা যায়নি', 'error'));
+        .catch(() => Swal.fire("ত্রুটি", "খরচ মুছে ফেলা যায়নি", "error"));
     }
   };
 
-
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
-
-
-
-
 
   return (
     <div className="max-w-4xl mx-auto p-6  dark:bg-gray-900 rounded shadow">
@@ -90,7 +87,10 @@ const PujarKhoroz = () => {
       </h1>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
         <input
           type="date"
           required
@@ -154,7 +154,10 @@ const PujarKhoroz = () => {
           </tbody>
           <tfoot className=" dark:bg-gray-800 font-bold">
             <tr>
-              <td colSpan="3" className="text-right border p-2 text-red-700 dark:text-red-300">
+              <td
+                colSpan="3"
+                className="text-right border p-2 text-red-700 dark:text-red-300"
+              >
                 মোট
               </td>
               <td className="border p-2 text-red-700 dark:text-red-300">
