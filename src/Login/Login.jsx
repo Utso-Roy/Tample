@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   return (
-    <div className='min-h-screen flex items-center justify-center dark:bg-gray-900 bg-gray-100 p-4'>
+    <div className='h-full flex items-center justify-center dark:bg-gray-900 bg-gray-100 p-4'>
       <div className='flex flex-col md:flex-row gap-10 items-center max-w-6xl w-full'>
 
         {/* Login Box */}
