@@ -55,19 +55,12 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 text-center text-sm border-t border-orange-700 pt-4 text-orange-200">
+        <div className="mt-5 text-center text-sm border-t border-orange-700 pt-4 text-orange-200">
           <p>Copyright © {new Date().getFullYear()} রামপুর আখিরা পাড়া হরি মন্দির | All Rights Reserved</p>
         </div>
       </footer>
 
-      {/* Marquee */}
-      <marquee
-        direction="left"
-        scrollamount="6"
-        className="text-lg font-semibold dark:bg-[#1E2939] text-yellow-100 bg-[#9a3412] py-2 tracking-wider"
-      >
-     রামপুর আখিরা পাড়া হরি মন্দির - সকলকে স্বাগতম 🙏
-      </marquee>
+    
     </div>
   );
 };

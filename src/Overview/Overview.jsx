@@ -6,6 +6,18 @@ const Overview = () => {
   const [majhaParatk, setMajhaParaTk] = useState([]);
   const [outCollectiontk, setOutCollectionTk] = useState([]);
 
+    const [totalExpenseValue , setTotalExpenseValue] = useState(null)
+  
+  
+  
+    useEffect(() => {
+    
+      fetch('http://localhost:3000/totalExpenseAllBills')
+        .then(res => res.json())
+      .then(data => setTotalExpenseValue(data))
+  },[])
+  
+console.log(totalExpenseValue)
   // Data fetching
   useEffect(() => {
     fetch('http://localhost:3000/uttarPara/totalTk')
@@ -66,12 +78,12 @@ const Overview = () => {
 
         <div className="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
           <h4 className="text-xl font-bold text-center mb-2">মোট ব্যয়</h4>
-          <p className="text-3xl font-bold text-center">৳ ৭৫,৫০০</p>
+          <p className="text-3xl font-bold text-center">৳ {totalExpenseValue?. totalTk.toFixed(2)}</p>
         </div>
 
         <div className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 p-6 rounded-xl shadow-lg transition-transform hover:scale-[1.02] duration-300">
           <h4 className="text-xl font-bold text-center mb-2">বর্তমান ব্যালেন্স</h4>
-          <p className="text-3xl font-bold text-center">৳ {(totalCollection - 75500).toFixed(2)}</p>
+          <p className="text-3xl font-bold text-center">৳ {(totalCollection.toFixed() - totalExpenseValue?.totalTk.toFixed(2)).toFixed(2)}</p>
         </div>
       </div>
 

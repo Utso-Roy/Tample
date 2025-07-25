@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 const AddExpenseList = () => {
+  const [totalExpenseValue , setTotalExpenseValue] = useState(null)
+
+
+
+  useEffect(() => {
+  
+    fetch('http://localhost:3000/totalExpenseAllBills')
+      .then(res => res.json())
+    .then(data => setTotalExpenseValue(data))
+},[])
+
+
+
   const expenseItems = [
     {
       title: 'পূজার খরচ',
@@ -55,7 +68,7 @@ const AddExpenseList = () => {
       </h2>
 
       <h3 className="text-xl font-semibold text-center mb-10 text-red-700 dark:text-red-300">
-        মোট ব্যয় : <span>৭৫,৫০০ টাকা</span>
+        মোট ব্যয় : <span>{totalExpenseValue?.totalTk.toFixed(2)} টাকা</span>
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
