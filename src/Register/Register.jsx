@@ -5,54 +5,67 @@ import Lottie from 'lottie-react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 import { updateProfile } from 'firebase/auth';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // 👁️ icons
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; 
 
 const Register = () => {
   const { creatUser, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false); // 👁️ state for toggle
+  const [showPassword, setShowPassword] = useState(false); 
 
-  const handleRegisterBtn = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const text = form.text.value;
-    const email = form.email.value;
-    const photo = form.photo.value;
-    const password = form.password.value;
- if (password.length < 6) {
+ const handleRegisterBtn = (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const text = form.text.value;
+  const email = form.email.value;
+  const photo = form.photo.value;
+  const password = form.password.value;
+
+  //  Password validation
+  if (password.length < 6) {
     Swal.fire({
       icon: "error",
       title: "Weak Password",
       text: "Password must be at least 6 characters long!",
     });
-    return; // stop further execution
+    return;
   }
-    creatUser(email, password)
-      .then((data) => {
-        const user = data.user;
-        updateProfile(user, {
-          displayName: text,
-          photoURL: photo,
-        })
-          .then(() => {
-            setUser(user);
-            navigate("/");
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Your registration was successful!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          })
-          .catch((error) => {
-            console.error("Profile update failed:", error.message);
-          });
+
+  creatUser(email, password)
+    .then((data) => {
+      const user = data.user;
+
+      updateProfile(user, {
+        displayName: text,
+        photoURL: photo,
       })
-      .catch((error) => {
-        alert(error.message);
+        .then(() => {
+          setUser(user);
+          navigate("/");
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your registration was successful!",
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true,
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Profile Update Failed",
+            text: error.message,
+          });
+        });
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: error.message,
       });
-  };
+    });
+};
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4'>
