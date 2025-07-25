@@ -50,7 +50,7 @@ const Stats = () => {
           <tbody>
   <tr className="bg-green-100 dark:bg-green-900">
     <td className="py-2 px-4 border-b dark:border-gray-700 font-medium text-green-700 dark:text-green-300">
-  ভক্তের অনুদান
+ মন্দিরে ভক্তের অনুদান
     </td>
     <td className="py-2 px-4 border-b dark:border-gray-700 font-semibold text-green-700 dark:text-green-300">
       ৳ {totalAddIncome?.totalTk.toFixed(2)}

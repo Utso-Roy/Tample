@@ -6,6 +6,7 @@ const Overview = () => {
   const [dokhinParatk, setDokhinParaTk] = useState([]);
   const [majhaParatk, setMajhaParaTk] = useState([]);
   const [outCollectiontk, setOutCollectionTk] = useState([]);
+  const [totalRice , setTotalRice] = useState(null)
   const [loading,setLoading] = useState(true)
 
     const [totalExpenseValue , setTotalExpenseValue] = useState(null)
@@ -48,6 +49,13 @@ console.log(totalExpenseValue)
       .then(data => setOutCollectionTk(data));
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:3000/totalRiceCollection')
+      .then(res => res.json())
+      .then(data => setTotalRice(data));
+  }, []);
+
+  console.log(totalRice)
   // Extracted values
   const totalTkUttarPara = uttarParatk[0]?.totalTk || 0;
   const totalTkDokkhinPara = dokhinParatk[0]?.totalTk || 0;
@@ -99,31 +107,47 @@ console.log(totalExpenseValue)
       </div>
 
       {/* Area-wise Table */}
-      <div className="bg-white dark:bg-[#1E2939] border border-gray-200 dark:border-white rounded-xl overflow-x-auto shadow-md">
-        <h3 className="text-2xl font-semibold dark:text-white text-gray-800 px-6 py-4 border-b border-gray-200 dark:border-white">
-          🏘️ পাড়া ভিত্তিক হিসাব
-        </h3>
+      {/* Area-wise Table */}
+<div className="bg-white dark:bg-[#1E2939] border-2 border-gray-200 dark:border-white rounded-xl overflow-hidden shadow-lg">
+  <h3 className="text-2xl font-semibold dark:text-white text-gray-800 px-6 py-4 bg-gray-100 dark:bg-[#334155] border-b border-gray-200 dark:border-white">
+    🏘️ পাড়া ভিত্তিক হিসাব
+  </h3>
 
-        <table className="min-w-full text-sm text-center dark:text-white">
-          <thead className="bg-gray-100 dark:bg-[#334155] text-gray-700 dark:text-white text-md">
-            <tr>
-              <th className="px-6 py-3 text-green-700 font-bold border">পাড়া</th>
-              <th className="px-6 py-3 text-green-700 font-bold border">প্রণামী</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white dark:bg-[#1E2939]">
-            {paraCollection.map((item, index) => (
-              <tr
-                key={index}
-                className="hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors"
-              >
-                <td className="border font-semibold px-6 py-3">{item.para}</td>
-                <td className="border px-6 font-semibold py-3">৳ {item.amount.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+  <div className="overflow-x-auto">
+    <table className="min-w-full text-sm text-center dark:text-white">
+      <thead className="bg-green-50 dark:bg-green-800 text-green-800 dark:text-green-100 uppercase tracking-wider text-xs font-semibold">
+        <tr>
+          <th className="px-6 py-4 border-b-2 border-green-300 font-bold dark:border-green-300">পাড়া</th>
+          <th className="px-6 py-4 border-b-2 border-green-300 font-bold dark:border-green-300">প্রণামী</th>
+        </tr>
+      </thead>
+      <tbody className="bg-white dark:bg-[#1E2939] divide-y divide-gray-200 dark:divide-gray-700">
+        {paraCollection.map((item, index) => (
+          <tr
+            key={index}
+            className="hover:bg-green-50 dark:hover:bg-[#334155] transition-colors duration-200"
+          >
+            <td className="px-6 py-4 font-medium text-gray-800 dark:text-white border-r-2 border-green-300 dark:border-green-300">
+              {item.para}
+            </td>
+            <td className="px-6 py-4 font-semibold text-green-700 dark:text-green-300">
+              ৳ {item.amount.toFixed(2)}
+            </td>
+          </tr>
+        ))}
+        <tr className="hover:bg-yellow-50 dark:hover:bg-[#334155] transition-colors duration-200">
+          <td className="px-6 py-4 font-medium text-gray-800 dark:text-white border-r-2 border-green-300 dark:border-green-300">
+            চাল
+          </td>
+          <td className="px-6 py-4 font-semibold text-yellow-700 dark:text-yellow-300">
+            {totalRice?.totalRiceIncome} kg
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
     </div>
   );
 };
