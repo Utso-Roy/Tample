@@ -10,9 +10,7 @@ const IncomeList = () => {
           <img className="w-10 h-10" src="https://i.ibb.co/SXSZ6bXc/salary.png" alt="Income" />
           ইনকাম তালিকা
         </h2>
-        <p className="text-2xl mt-4 font-semibold text-[#166534] dark:text-green-300">
-          মোট টাকা: <span className="font-bold">৳ ১,২০,০০০</span>
-        </p>
+
       </div>
 
       {/* Income Cards Grid */}

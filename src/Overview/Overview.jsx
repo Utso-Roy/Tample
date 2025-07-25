@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import Loading from "../Loader/Loading";
 
 const Overview = () => {
   const [uttarParatk, setUttarParaTk] = useState([]);
   const [dokhinParatk, setDokhinParaTk] = useState([]);
   const [majhaParatk, setMajhaParaTk] = useState([]);
   const [outCollectiontk, setOutCollectionTk] = useState([]);
+  const [loading,setLoading] = useState(true)
 
     const [totalExpenseValue , setTotalExpenseValue] = useState(null)
   
@@ -14,7 +16,10 @@ const Overview = () => {
     
       fetch('http://localhost:3000/totalExpenseAllBills')
         .then(res => res.json())
-      .then(data => setTotalExpenseValue(data))
+        .then(data => {
+          setTotalExpenseValue(data)
+          setLoading(false)
+      })
   },[])
   
 console.log(totalExpenseValue)
@@ -62,6 +67,12 @@ console.log(totalExpenseValue)
     0
   );
 
+  if (loading) {
+    return <Loading></Loading>
+  }
+
+
+
   return (
     <div className="max-w-6xl mx-auto h-full bg-[#f3f4f6] dark:bg-[#1E2939] dark:border dark:border-white px-6 py-12 transition-colors duration-300">
       {/* Title */}
@@ -96,8 +107,8 @@ console.log(totalExpenseValue)
         <table className="min-w-full text-sm text-center dark:text-white">
           <thead className="bg-gray-100 dark:bg-[#334155] text-gray-700 dark:text-white text-md">
             <tr>
-              <th className="px-6 py-3 border">পাড়া</th>
-              <th className="px-6 py-3 border">প্রণামী</th>
+              <th className="px-6 py-3 text-green-700 font-bold border">পাড়া</th>
+              <th className="px-6 py-3 text-green-700 font-bold border">প্রণামী</th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-[#1E2939]">
@@ -106,7 +117,7 @@ console.log(totalExpenseValue)
                 key={index}
                 className="hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors"
               >
-                <td className="border px-6 py-3">{item.para}</td>
+                <td className="border font-semibold px-6 py-3">{item.para}</td>
                 <td className="border px-6 font-semibold py-3">৳ {item.amount.toFixed(2)}</td>
               </tr>
             ))}

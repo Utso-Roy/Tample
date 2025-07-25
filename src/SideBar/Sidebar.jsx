@@ -32,7 +32,7 @@ const Sidebar = () => {
               <FaList /> Overview
             </NavLink>
             <NavLink to="/stats" className={navItemClass}>
-              <FaChartBar /> Stats
+           <FaList /> income/expense
             </NavLink>
           </ul>
         </div>
