@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaUpload } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import Loading from "../Loader/Loading";
 
 const UploadFile = () => {
   const [data, setData] = useState([]);
@@ -100,7 +101,7 @@ const UploadFile = () => {
   };
 
   if (loading) {
-    return <span className="loading loading-bars loading-xl"></span>;
+    return <Loading></Loading>;
   }
 
   return (
