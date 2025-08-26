@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router';
 import { Typewriter } from 'react-simple-typewriter';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
-
+import { MdLogout } from "react-icons/md";
 const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const { user, logOut } = useContext(AuthContext);
@@ -148,8 +148,8 @@ const Navbar = () => {
                     {user?.email}
                   </li>
                   <li>
-                    <button onClick={handleLogOut} className="btn bg-amber-500 text-white mt-1 w-full">
-                      Log Out
+                    <button onClick={handleLogOut} className="btn text-lg  text-red-700 mt-1 w-full">
+                      <MdLogout className='inline mr-0.5 ' /> Logout
                     </button>
                   </li>
                 </ul>

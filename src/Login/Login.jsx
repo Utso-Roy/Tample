@@ -60,10 +60,10 @@ const Login = () => {
 
   return (
     <div className='h-full flex items-center justify-center dark:bg-gray-900 bg-gray-100 p-4'>
-      <div className='flex flex-col md:flex-row gap-10 items-center max-w-6xl w-full'>
+      <div className='flex flex-col md:flex-row gap-10 items-center shadow-xl  bg-white rounded-md max-w-6xl w-full'>
 
         {/* Login Box */}
-        <div className="w-full max-w-md p-8 space-y-6 rounded-xl shadow-xl bg-white dark:bg-gray-800">
+        <div className="w-full max-w-md p-8 space-y-6   dark:bg-gray-800">
           <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white">Welcome Back</h1>
           <p className="text-center text-gray-600 dark:text-gray-300">Sign in your account</p>
 
