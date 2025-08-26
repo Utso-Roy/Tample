@@ -65,7 +65,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className={`navbar rounded-[5px] shadow-sm text-white 
+      <div className={`navbar shadow-sm text-white 
         ${theme === 'dark' ? 'bg-[#1E2939]' : 'bg-gradient-to-b from-orange-700 to-orange-600'}`}>
         
         {/* Navbar Start */}

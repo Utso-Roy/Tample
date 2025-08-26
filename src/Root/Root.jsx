@@ -7,7 +7,7 @@ import Sidebar from '../SideBar/Sidebar';
 const Root = () => {
   
   return (
-    <div className='max-w-6xl mx-auto'>
+    <div className='max-w-screen-xl mx-auto'>
       <div className='sticky top-0 z-1000 '>
 
       <Navbar />
